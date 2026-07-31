@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/estimate.controller');
+const { protect } = require('../middleware/auth');
+const { submitLimiter } = require('../middleware/rateLimiter');
+router.post('/', submitLimiter, ctrl.submitEstimate);
+router.get('/', protect, ctrl.getAllEstimates);
+router.patch('/:id/status', protect, ctrl.updateEstimateStatus);
+router.delete('/:id', protect, ctrl.deleteEstimate);
+module.exports = router;

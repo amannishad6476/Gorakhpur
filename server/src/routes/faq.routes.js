@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/faq.controller');
+const { protect } = require('../middleware/auth');
+router.get('/', ctrl.getActiveFAQs);
+router.get('/admin/all', protect, ctrl.getAllFAQsAdmin);
+router.post('/', protect, ctrl.createFAQ);
+router.put('/:id', protect, ctrl.updateFAQ);
+router.delete('/:id', protect, ctrl.deleteFAQ);
+module.exports = router;

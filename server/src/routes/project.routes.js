@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/project.controller');
+const { protect } = require('../middleware/auth');
+router.get('/', ctrl.getProjects);
+router.get('/featured', ctrl.getFeaturedProjects);
+router.get('/slug/:slug', ctrl.getProjectBySlug);
+router.get('/admin/all', protect, ctrl.getProjects);
+router.post('/', protect, ctrl.createProject);
+router.put('/:id', protect, ctrl.updateProject);
+router.delete('/:id', protect, ctrl.deleteProject);
+module.exports = router;

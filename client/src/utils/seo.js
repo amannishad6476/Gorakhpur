@@ -1,0 +1,70 @@
+export const SEO_CONFIG = {
+  siteName: 'Munnalal Painter',
+  siteUrl: 'https://munnalalpainter.com',
+  defaultTitle: 'Munnalal Painter | Best Painter in Gorakhpur, UP',
+  defaultDescription: 'Munnalal Painter offers professional house painting, interior, exterior, texture painting, waterproofing, POP design & more in Gorakhpur, UP. 15+ years experience. Free estimate.',
+  defaultImage: 'https://munnalalpainter.com/og-image.jpg',
+  phone: '+91-9876543210',
+  whatsapp: '+919876543210',
+  email: 'info@munnalalpainter.com',
+  address: 'Near Railway Station, Gorakhpur, Uttar Pradesh 273001',
+  locality: 'Gorakhpur',
+  region: 'Uttar Pradesh',
+  country: 'IN',
+  postalCode: '273001',
+  googleAnalyticsId: 'G-XXXXXXXXXX',
+  googleSearchConsoleId: 'YOUR_VERIFICATION_CODE',
+  mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113876.79!2d83.31729!3d26.76012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991446a0c332489%3A0x1966b59ac4e4e928!2sGorakhpur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1699876543210',
+};
+
+export const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${SEO_CONFIG.siteUrl}/#business`,
+  name: SEO_CONFIG.siteName,
+  description: SEO_CONFIG.defaultDescription,
+  url: SEO_CONFIG.siteUrl,
+  telephone: SEO_CONFIG.phone,
+  email: SEO_CONFIG.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Near Railway Station',
+    addressLocality: SEO_CONFIG.locality,
+    addressRegion: SEO_CONFIG.region,
+    postalCode: SEO_CONFIG.postalCode,
+    addressCountry: SEO_CONFIG.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '26.7606',
+    longitude: '83.3732',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '08:00',
+      closes: '20:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Sunday',
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  priceRange: '₹₹',
+  currenciesAccepted: 'INR',
+  paymentAccepted: 'Cash, Bank Transfer, UPI',
+  areaServed: [
+    'Gorakhpur', 'Deoria', 'Kushinagar', 'Maharajganj', 'Siddharthnagar', 'Basti', 'Sant Kabir Nagar',
+    'Azamgarh', 'Mau', 'Ballia', 'Ghazipur'
+  ],
+  hasMap: SEO_CONFIG.mapEmbedUrl,
+  image: SEO_CONFIG.defaultImage,
+  sameAs: [
+    'https://www.facebook.com/munnalalpainter',
+    'https://www.instagram.com/munnalalpainter',
+    'https://g.page/munnalalpainter',
+  ],
+};
