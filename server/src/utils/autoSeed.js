@@ -29,7 +29,7 @@ const autoSeed = async () => {
   try {
     const adminCount = await User.countDocuments();
     if (adminCount === 0) {
-      const email = process.env.ADMIN_EMAIL || 'admin@munnalalpainter.com';
+      const email = process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com';
       const password = process.env.ADMIN_PASSWORD || 'Admin@123456';
       await User.create({
         name: 'Munnalal Painter Admin',

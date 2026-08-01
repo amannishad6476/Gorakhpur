@@ -72,7 +72,7 @@ const AdminLoginPage = () => {
           <form onSubmit={handleSubmit(onLogin)} className="space-y-4">
             <div>
               <label className="block text-white/80 text-sm mb-1.5">Email Address</label>
-              <input {...register('email', { required: 'Required' })} type="email" placeholder="admin@munnalalpainter.com"
+              <input {...register('email', { required: 'Required' })} type="email" placeholder="amannishad6476@gmail.com"
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: `1px solid ${errors.email ? '#ef4444' : 'rgba(255,255,255,0.2)'}`, color: '#fff' }} />
             </div>
             <div>

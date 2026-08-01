@@ -17,7 +17,7 @@ const FloatingButtons = () => {
     <>
       {/* WhatsApp */}
       <motion.a
-        href={`https://wa.me/${SEO_CONFIG.whatsapp}?text=Hello, I need painting services in Gorakhpur.`}
+        href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}?text=Hello, I need painting services in Gorakhpur.`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl text-2xl"

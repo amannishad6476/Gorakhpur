@@ -32,7 +32,7 @@ const MapSection = () => (
           {[
             { icon: '📍', title: 'Our Location', info: SEO_CONFIG.address },
             { icon: '📞', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
-            { icon: '💬', title: 'WhatsApp', info: 'Chat with us now', href: `https://wa.me/${SEO_CONFIG.whatsapp}` },
+            { icon: '💬', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
             { icon: '✉️', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
             { icon: '🕐', title: 'Working Hours', info: 'Mon-Sat: 8am - 8pm\nSunday: 9am - 6pm' },
           ].map((item) => (

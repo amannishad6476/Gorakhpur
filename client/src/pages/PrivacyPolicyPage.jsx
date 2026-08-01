@@ -1,5 +1,6 @@
 import SEOHead from '../components/layout/SEOHead';
 import Breadcrumb from '../components/layout/Breadcrumb';
+import { SEO_CONFIG } from '../utils/seo';
 
 const PrivacyPolicyPage = () => (
   <>
@@ -14,7 +15,15 @@ const PrivacyPolicyPage = () => (
     <section className="section-padding" style={{ background: 'var(--color-surface)' }}>
       <div className="container-custom max-w-4xl prose prose-slate dark:prose-invert max-w-none">
         <p className="text-[var(--color-text-muted)]">Last updated: January 1, 2024</p>
-        {[{ title: '1. Information We Collect', content: 'We collect information you provide when you fill contact forms, estimate requests, or submit reviews. This includes name, email address, phone number, and address. We also automatically collect IP address and browser information for security purposes.' }, { title: '2. How We Use Your Information', content: 'We use your information to respond to your enquiries, provide painting service estimates, send relevant service information, improve our website, and for internal record keeping.' }, { title: '3. Information Security', content: 'We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. All data is stored securely on encrypted servers.' }, { title: '4. Cookies', content: 'Our website uses cookies to enhance your browsing experience. You can choose to disable cookies through your browser settings, though this may affect some website functionality.' }, { title: '5. Third Party Sharing', content: 'We do not sell, trade, or share your personal information with third parties except when required by law or to protect our rights. We may share anonymized statistical data.' }, { title: '6. Your Rights', content: 'You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, contact us at info@munnalalpainter.com.' }, { title: '7. Contact Us', content: 'If you have questions about this privacy policy, contact us at: Munnalal Painter, Near Railway Station, Gorakhpur, UP 273001. Email: info@munnalalpainter.com. Phone: +91-9876543210.' }].map(section => (
+        {[
+          { title: '1. Information We Collect', content: 'We collect information you provide when you fill contact forms, estimate requests, or submit reviews. This includes name, email address, phone number, and address. We also automatically collect IP address and browser information for security purposes.' },
+          { title: '2. How We Use Your Information', content: 'We use your information to respond to your enquiries, provide painting service estimates, send relevant service information, improve our website, and for internal record keeping.' },
+          { title: '3. Information Security', content: 'We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. All data is stored securely on encrypted servers.' },
+          { title: '4. Cookies', content: 'Our website uses cookies to enhance your browsing experience. You can choose to disable cookies through your browser settings, though this may affect some website functionality.' },
+          { title: '5. Third Party Sharing', content: 'We do not sell, trade, or share your personal information with third parties except when required by law or to protect our rights. We may share anonymized statistical data.' },
+          { title: '6. Your Rights', content: `You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, contact us at ${SEO_CONFIG.email}.` },
+          { title: '7. Contact Us', content: `If you have questions about this privacy policy, contact us at: Munnalal Painter, Near Railway Station, Gorakhpur, UP 273001. Email: ${SEO_CONFIG.email}. Phone: ${SEO_CONFIG.phone}.` }
+        ].map(section => (
           <div key={section.title} className="mb-8">
             <h2 className="text-xl font-bold text-[var(--color-text)] mb-3">{section.title}</h2>
             <p className="text-[var(--color-text-muted)] leading-relaxed">{section.content}</p>

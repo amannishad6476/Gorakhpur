@@ -51,9 +51,9 @@ const defaultContent = [
   { key: 'hero_subtitle', value: 'Premium Quality Painting for Homes, Offices & Commercial Spaces in Gorakhpur', type: 'text', label: 'Hero Subtitle', group: 'home' },
   { key: 'about_title', value: 'About Munnalal Painter', type: 'text', label: 'About Title', group: 'about' },
   { key: 'about_description', value: 'With over 15 years of experience in the painting industry, Munnalal Painter has established itself as the most trusted painting contractor in Gorakhpur, Uttar Pradesh. We combine traditional craftsmanship with modern techniques to deliver exceptional results.', type: 'text', label: 'About Description', group: 'about' },
-  { key: 'phone', value: '+91-9876543210', type: 'text', label: 'Phone Number', group: 'contact' },
-  { key: 'whatsapp', value: '+919876543210', type: 'text', label: 'WhatsApp Number', group: 'contact' },
-  { key: 'email', value: 'info@munnalalpainter.com', type: 'text', label: 'Email', group: 'contact' },
+  { key: 'phone', value: '7668415684', type: 'text', label: 'Phone Number', group: 'contact' },
+  { key: 'whatsapp', value: '+918303719864', type: 'text', label: 'WhatsApp Number', group: 'contact' },
+  { key: 'email', value: 'amannishad6476@gmail.com', type: 'text', label: 'Email', group: 'contact' },
   { key: 'address', value: 'Near Railway Station, Gorakhpur, Uttar Pradesh 273001', type: 'text', label: 'Address', group: 'contact' },
   { key: 'years_experience', value: '15+', type: 'text', label: 'Years of Experience', group: 'stats' },
   { key: 'projects_completed', value: '2500+', type: 'text', label: 'Projects Completed', group: 'stats' },
@@ -78,7 +78,7 @@ const seed = async () => {
     // Create admin user
     const admin = await User.create({
       name: 'Munnalal Painter Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@munnalalpainter.com',
+      email: process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com',
       password: process.env.ADMIN_PASSWORD || 'Admin@123456',
       role: 'superadmin',
     });

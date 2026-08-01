@@ -8,7 +8,7 @@ const ContactPage = () => (
   <>
     <SEOHead
       title="Contact Us - Painter in Gorakhpur | Munnalal Painter"
-      description="Contact Munnalal Painter for professional painting services in Gorakhpur. Call +91-9876543210, WhatsApp, or fill the form. Free estimate available."
+      description={`Contact Munnalal Painter for professional painting services in Gorakhpur. Call ${SEO_CONFIG.phone}, WhatsApp ${SEO_CONFIG.whatsapp}, or fill the form. Free estimate available.`}
       canonical="/contact"
       breadcrumbs={[{ name: 'Contact', href: '/contact' }]}
     />
@@ -32,7 +32,7 @@ const ContactPage = () => (
             {[
               { icon: '📍', title: 'Our Address', info: SEO_CONFIG.address },
               { icon: '📞', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
-              { icon: '💬', title: 'WhatsApp', info: 'Chat with us', href: `https://wa.me/${SEO_CONFIG.whatsapp}` },
+              { icon: '💬', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
               { icon: '✉️', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
               { icon: '⏰', title: 'Working Hours', info: 'Mon-Sat: 8am-8pm\nSunday: 9am-6pm' },
             ].map(item => (

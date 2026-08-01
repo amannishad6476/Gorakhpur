@@ -78,7 +78,7 @@ const ServiceDetailPage = () => {
                 <p className="text-[var(--color-text-muted)] text-sm mb-4">Contact us for a free on-site estimate for {s.title} in Gorakhpur.</p>
                 <div className="space-y-3">
                   <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center">📞 Call Now</a>
-                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm" style={{ background: '#25D366', color: '#fff' }}>💬 WhatsApp Us</a>
+                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm" style={{ background: '#25D366', color: '#fff' }}>💬 WhatsApp Us</a>
                   <Link to="/free-estimate" className="btn-secondary w-full justify-center text-[var(--color-text)]" style={{ borderColor: 'var(--color-border)' }}>📋 Fill Estimate Form</Link>
                 </div>
               </div>

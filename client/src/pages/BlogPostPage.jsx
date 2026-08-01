@@ -128,7 +128,7 @@ const BlogPostPage = () => {
                 <h3 className="font-bold text-[var(--color-text)] mb-4">Quick Contact</h3>
                 <div className="space-y-3">
                   <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center text-sm">📞 Call Now</a>
-                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer"
+                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm"
                     style={{ background: '#25D366', color: '#fff' }}>
                     💬 WhatsApp

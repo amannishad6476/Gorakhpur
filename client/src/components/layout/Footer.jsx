@@ -31,7 +31,7 @@ const Footer = () => {
               <a href={`tel:${SEO_CONFIG.phone}`} className="flex items-center gap-2 text-white/70 hover:text-[#d4a017] transition-colors text-sm">
                 📞 {SEO_CONFIG.phone}
               </a>
-              <a href={`https://wa.me/${SEO_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/70 hover:text-[#25D366] transition-colors text-sm">
+              <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/70 hover:text-[#25D366] transition-colors text-sm">
                 💬 WhatsApp Us
               </a>
               <a href={`mailto:${SEO_CONFIG.email}`} className="flex items-center gap-2 text-white/70 hover:text-[#d4a017] transition-colors text-sm">
