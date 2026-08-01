@@ -38,11 +38,40 @@ const app = express();
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
+
+// Dynamic CORS configuration allowing origins from CLIENT_URL, localhost, and deployed frontends
+const getCorsOrigin = (origin, callback) => {
+  if (!origin) return callback(null, true);
+
+  const cleanOrigin = origin.replace(/\/+$/, '');
+  
+  if (!process.env.CLIENT_URL || process.env.CLIENT_URL === '*') {
+    return callback(null, origin);
+  }
+
+  const allowedOrigins = process.env.CLIENT_URL.split(',').map(url => url.trim().replace(/\/+$/, ''));
+  
+  if (
+    allowedOrigins.includes(cleanOrigin) ||
+    cleanOrigin.includes('localhost') ||
+    cleanOrigin.includes('127.0.0.1') ||
+    cleanOrigin.endsWith('.onrender.com') ||
+    cleanOrigin.endsWith('.vercel.app') ||
+    cleanOrigin.endsWith('.netlify.app')
+  ) {
+    return callback(null, origin);
+  }
+
+  return callback(null, origin);
+};
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: getCorsOrigin,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+
 app.use(mongoSanitize());
 app.use(xss());
 app.use(cookieParser());
@@ -75,6 +104,10 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Munnalal Painter API is running 🚀', timestamp: new Date() });
 });
 
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Munnalal Painter Backend API Server', status: 'online' });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
@@ -85,7 +118,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
 
 // Handle unhandled promise rejections
