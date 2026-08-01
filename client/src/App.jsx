@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
@@ -158,7 +158,7 @@ const NotFoundPage = () => (
       <h1 className="text-6xl font-black text-gradient-gold mb-4">404</h1>
       <h2 className="text-2xl font-bold text-[var(--color-text)] mb-4">Page Not Found</h2>
       <p className="text-[var(--color-text-muted)] mb-8">The page you're looking for doesn't exist.</p>
-      <a href="/" className="btn-primary">Go to Homepage</a>
+      <Link to="/" className="btn-primary">Go to Homepage</Link>
     </div>
   </div>
 );
