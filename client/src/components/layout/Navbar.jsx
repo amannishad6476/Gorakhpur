@@ -41,17 +41,17 @@ const Navbar = () => {
         } : {}}
       >
         <div className="container-custom">
-          <nav className="flex items-center justify-between h-16 lg:h-20">
+          <nav className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-xl shadow-md group-hover:scale-110 transition-transform">
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
                 M
               </div>
-              <div className="leading-tight">
-                <div className={`font-black text-base tracking-tight ${isTransparent ? 'text-white' : 'text-[var(--color-text)]'}`}>
+              <div className="leading-none">
+                <div className={`font-black text-sm sm:text-base tracking-tight ${isTransparent ? 'text-white' : 'text-[var(--color-text)]'}`}>
                   Munnalal
                 </div>
-                <div className="text-[#d4a017] text-xs font-semibold tracking-widest uppercase">
+                <div className="text-[#d4a017] text-[9px] sm:text-xs font-semibold tracking-widest uppercase mt-0.5">
                   Painter
                 </div>
               </div>
@@ -165,11 +165,11 @@ const Navbar = () => {
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
-                className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-sm transition-all ${
                   isTransparent
                     ? 'text-white/80 hover:bg-white/10'
                     : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)]'
@@ -182,7 +182,7 @@ const Navbar = () => {
               {/* Admin Panel Button */}
               <Link
                 to="/admin"
-                className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all rounded-lg border ${
+                className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all border ${
                   isTransparent
                     ? 'border-white/30 text-white hover:bg-white/10'
                     : 'border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-[#d4a017] hover:border-[#d4a017] hover:bg-[var(--color-surface-2)]'
@@ -192,18 +192,18 @@ const Navbar = () => {
                 🔒 Admin
               </Link>
 
-              {/* Free Estimate CTA */}
+              {/* Free Estimate CTA Button */}
               <Link
                 to="/free-estimate"
-                className="hidden lg:flex btn-primary text-sm py-2.5 px-5"
+                className="btn-primary text-xs sm:text-sm py-1.5 px-3 sm:py-2.5 sm:px-5 whitespace-nowrap shadow-sm"
               >
-                Free Estimate
+                <span className="hidden xs:inline">Free </span>Estimate
               </Link>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className={`lg:hidden w-9 h-9 rounded-lg flex flex-col items-center justify-center gap-1.5 transition-all ${
+                className={`lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex flex-col items-center justify-center gap-1 transition-all ${
                   isTransparent
                     ? 'text-white hover:bg-white/10'
                     : 'text-[var(--color-text)] hover:bg-[var(--color-surface-2)]'
@@ -211,16 +211,16 @@ const Navbar = () => {
                 aria-label="Toggle menu"
               >
                 <motion.span
-                  animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                  className="block w-5 h-0.5 bg-current rounded"
+                  animate={mobileOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
+                  className="block w-4 sm:w-5 h-0.5 bg-current rounded"
                 />
                 <motion.span
                   animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="block w-5 h-0.5 bg-current rounded"
+                  className="block w-4 sm:w-5 h-0.5 bg-current rounded"
                 />
                 <motion.span
-                  animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                  className="block w-5 h-0.5 bg-current rounded"
+                  animate={mobileOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
+                  className="block w-4 sm:w-5 h-0.5 bg-current rounded"
                 />
               </button>
             </div>

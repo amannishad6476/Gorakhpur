@@ -62,14 +62,14 @@ const HeroBanner = () => {
         ))}
       </div>
 
-      <div className="container-custom relative z-10 py-32">
+      <div className="container-custom relative z-10 pt-24 pb-12 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32">
         <div className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <span className="badge-gold mb-6 inline-flex">
+            <span className="badge-gold mb-4 sm:mb-6 inline-flex text-xs sm:text-sm px-3.5 py-1.5">
               ✨ Gorakhpur's #1 Painting Service
             </span>
           </motion.div>
@@ -78,7 +78,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6"
+            className="text-[34px] xs:text-[38px] sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.15] sm:leading-tight mb-4 sm:mb-6"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
             Transform Your
@@ -90,7 +90,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white/70 text-lg md:text-xl max-w-2xl mb-8 leading-relaxed"
+            className="text-white/80 text-sm sm:text-base md:text-lg lg:text-xl max-w-lg md:max-w-2xl mb-6 sm:mb-8 leading-relaxed"
           >
             Professional house painting, interior & exterior painting, texture painting, waterproofing and POP design in Gorakhpur. 15+ years of excellence, 2500+ projects completed.
           </motion.p>
@@ -99,15 +99,15 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-4 mb-12"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-12 w-full max-w-md sm:max-w-none"
           >
-            <Link to="/free-estimate" className="btn-primary text-base">
+            <Link to="/free-estimate" className="btn-primary w-full sm:w-auto text-center justify-center py-3 sm:py-3.5 px-6 text-sm sm:text-base">
               🎨 Get Free Estimate
             </Link>
-            <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary">
+            <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary w-full sm:w-auto text-center justify-center py-3 sm:py-3.5 px-6 text-sm sm:text-base">
               📞 Call Now
             </a>
-            <Link to="/gallery" className="btn-secondary">
+            <Link to="/gallery" className="btn-secondary w-full sm:w-auto text-center justify-center py-3 sm:py-3.5 px-6 text-sm sm:text-base">
               🖼️ View Gallery
             </Link>
           </motion.div>
@@ -117,7 +117,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
           >
             {stats.map((stat, i) => (
               <motion.div
@@ -125,10 +125,10 @@ const HeroBanner = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-                className="glass rounded-xl p-4 text-center"
+                className="glass rounded-xl p-3 sm:p-4 text-center h-full flex flex-col items-center justify-center min-h-[75px]"
               >
-                <div className="text-2xl md:text-3xl font-black text-gradient-gold">{stat.value}</div>
-                <div className="text-white/60 text-xs mt-1">{stat.label}</div>
+                <div className="text-xl xs:text-2xl sm:text-3xl font-black text-gradient-gold">{stat.value}</div>
+                <div className="text-white/70 text-[11px] sm:text-xs mt-1 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

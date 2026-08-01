@@ -20,12 +20,12 @@ const FloatingButtons = () => {
         href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}?text=Hello, I need painting services in Gorakhpur.`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl text-2xl"
+        className="fixed bottom-[70px] sm:bottom-24 right-3.5 sm:right-5 z-40 w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg text-xl sm:text-2xl"
         style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 1.5, type: 'spring' }}
-        whileHover={{ scale: 1.15 }}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Chat on WhatsApp"
       >
@@ -33,7 +33,7 @@ const FloatingButtons = () => {
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{ border: '2px solid #25D366' }}
-          animate={{ scale: [1, 1.5, 1.5], opacity: [1, 0, 0] }}
+          animate={{ scale: [1, 1.4, 1.4], opacity: [0.8, 0, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.a>
@@ -41,12 +41,12 @@ const FloatingButtons = () => {
       {/* Call Now */}
       <motion.a
         href={`tel:${SEO_CONFIG.phone}`}
-        className="fixed bottom-8 right-5 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl text-2xl"
+        className="fixed bottom-3.5 sm:bottom-8 right-3.5 sm:right-5 z-40 w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg text-xl sm:text-2xl"
         style={{ background: 'linear-gradient(135deg, #d4a017, #f0c040)' }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 1.7, type: 'spring' }}
-        whileHover={{ scale: 1.15 }}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Call Now"
       >
@@ -54,7 +54,7 @@ const FloatingButtons = () => {
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{ border: '2px solid #d4a017' }}
-          animate={{ scale: [1, 1.5, 1.5], opacity: [1, 0, 0] }}
+          animate={{ scale: [1, 1.4, 1.4], opacity: [0.8, 0, 0] }}
           transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
         />
       </motion.a>
@@ -64,7 +64,7 @@ const FloatingButtons = () => {
         {showScrollTop && (
           <motion.button
             onClick={scrollToTop}
-            className="fixed bottom-8 left-5 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg text-white"
+            className="fixed bottom-3.5 sm:bottom-8 left-3.5 sm:left-5 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-md text-white text-base sm:text-lg"
             style={{ background: 'linear-gradient(135deg, #1e3a5f, #2563a8)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

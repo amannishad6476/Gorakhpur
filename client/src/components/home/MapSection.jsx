@@ -14,7 +14,7 @@ const MapSection = () => (
 
       <div className="grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2">
-          <div className="rounded-2xl overflow-hidden shadow-xl" style={{ border: '2px solid var(--color-border)', height: '450px' }}>
+          <div className="rounded-2xl overflow-hidden shadow-xl h-[280px] sm:h-[380px] lg:h-[450px]" style={{ border: '2px solid var(--color-border)' }}>
             <iframe
               src={SEO_CONFIG.mapEmbedUrl}
               width="100%"

@@ -10,11 +10,11 @@ const SectionHeader = ({ badge, title, titleHighlight, subtitle, center = true }
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
-      className={`mb-12 ${center ? 'text-center' : ''}`}
+      className={`mb-8 sm:mb-12 ${center ? 'text-center' : ''}`}
     >
       {badge && (
-        <div className={`${center ? 'flex justify-center' : ''} mb-4`}>
-          <span className="badge-gold">{badge}</span>
+        <div className={`${center ? 'flex justify-center' : ''} mb-3 sm:mb-4`}>
+          <span className="badge-gold text-xs sm:text-sm px-3.5 py-1.5">{badge}</span>
         </div>
       )}
       <h2 className="section-title">

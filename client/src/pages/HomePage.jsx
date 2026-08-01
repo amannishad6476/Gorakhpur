@@ -71,9 +71,9 @@ const CTASection = () => (
           Get Your <span className="text-gradient-gold">Free Estimate</span> Today
         </h2>
         <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">Professional painters at your doorstep. Free on-site estimate within 24 hours. No obligation, no hidden charges.</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/free-estimate" className="btn-primary text-base">🎨 Get Free Estimate</Link>
-          <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary">📞 Call {SEO_CONFIG.phone}</a>
+        <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 max-w-md mx-auto sm:max-w-none">
+          <Link to="/free-estimate" className="btn-primary w-full sm:w-auto justify-center text-sm sm:text-base">🎨 Get Free Estimate</Link>
+          <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary w-full sm:w-auto justify-center text-sm sm:text-base">📞 Call {SEO_CONFIG.phone}</a>
         </div>
       </motion.div>
     </div>
