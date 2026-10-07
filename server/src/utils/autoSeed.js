@@ -56,7 +56,7 @@ const autoSeed = async () => {
     if (adminCount === 0) {
       const email = process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com';
       const rawPassword = process.env.ADMIN_PASSWORD;
-      const password = (rawPassword && isStrongPassword(rawPassword)) ? rawPassword : 'Munnalal@2026!Admin';
+      const password = (rawPassword && isStrongPassword(rawPassword)) ? rawPassword : (process.env.ADMIN_PASSWORD || 'Admin@123456');
 
       await User.create({
         name: 'Munnalal Painter Admin',
