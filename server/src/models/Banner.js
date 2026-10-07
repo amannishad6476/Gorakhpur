@@ -9,6 +9,7 @@ const bannerSchema = new mongoose.Schema(
     image: { type: String, required: true },
     imagePublicId: { type: String, default: '' },
     isActive: { type: Boolean, default: true },
+    isPrimary: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
   },
   { timestamps: true }

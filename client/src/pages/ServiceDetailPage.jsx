@@ -57,6 +57,19 @@ const ServiceDetailPage = () => {
         <div className="container-custom">
           <div className="grid lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
+              {s.image && (
+                <div className="mb-6 rounded-2xl overflow-hidden shadow-lg border" style={{ borderColor: 'var(--color-border)' }}>
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    className="w-full h-64 md:h-80 object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
               <div className="prose max-w-none text-[var(--color-text-muted)]" dangerouslySetInnerHTML={{ __html: s.description }} />
               {s.features && s.features.length > 0 && (
                 <div className="mt-8">
