@@ -4,6 +4,7 @@ const FAQ = require('../models/FAQ');
 const Testimonial = require('../models/Testimonial');
 const SiteContent = require('../models/SiteContent');
 const Banner = require('../models/Banner');
+const { isStrongPassword } = require('./validation');
 
 const services = [
   { title: 'House Painting', slug: 'house-painting', shortDescription: 'Complete house painting with premium paints for a beautiful, long-lasting finish.', description: '<p>Transform your home with our professional house painting services. We use premium quality paints from top brands like Asian Paints, Berger, and Nerolac to give your home a beautiful, durable finish that lasts for years.</p><p>Our expert painters ensure thorough surface preparation, priming, and application of multiple coats for the best results.</p>', icon: '🏠', image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80', features: ['Premium quality paints', 'Expert painters', 'Surface preparation', 'Multiple coat application', 'Clean work guarantee', 'On-time completion'], metaTitle: 'House Painting in Gorakhpur | Munnalal Painter', metaDescription: 'Professional house painting services in Gorakhpur. Premium paints, expert painters, affordable prices. Call for free estimate.', order: 1 },
@@ -54,14 +55,16 @@ const autoSeed = async () => {
     const adminCount = await User.countDocuments();
     if (adminCount === 0) {
       const email = process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com';
-      const password = process.env.ADMIN_PASSWORD || 'Admin@123456';
+      const rawPassword = process.env.ADMIN_PASSWORD;
+      const password = (rawPassword && isStrongPassword(rawPassword)) ? rawPassword : 'Munnalal@2026!Admin';
+
       await User.create({
         name: 'Munnalal Painter Admin',
         email,
         password,
         role: 'superadmin',
       });
-      console.log(`👤 Admin user verified/created: ${email}`);
+      console.log(`👤 Admin user created securely (${email})`);
     }
 
     const serviceCount = await Service.countDocuments();

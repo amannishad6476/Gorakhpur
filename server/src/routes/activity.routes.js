@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const ctrl = require('../controllers/activity.controller');
-const { protect } = require('../middleware/auth');
-router.get('/', protect, ctrl.getLogs);
-router.delete('/clear', protect, ctrl.clearLogs);
+const { protectAdmin } = require('../middleware/auth');
+
+router.get('/', protectAdmin, ctrl.getLogs);
+router.delete('/clear', protectAdmin, ctrl.clearLogs);
+
 module.exports = router;

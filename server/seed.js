@@ -75,14 +75,18 @@ const seed = async () => {
     ]);
     console.log('🗑️  Cleared existing data');
 
+    const { isStrongPassword } = require('./src/utils/validation');
+    const rawPass = process.env.ADMIN_PASSWORD;
+    const adminPass = (rawPass && isStrongPassword(rawPass)) ? rawPass : 'Munnalal@2026!Admin';
+
     // Create admin user
     const admin = await User.create({
       name: 'Munnalal Painter Admin',
       email: process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com',
-      password: process.env.ADMIN_PASSWORD || 'Admin@123456',
+      password: adminPass,
       role: 'superadmin',
     });
-    console.log(`✅ Admin user created: ${admin.email}`);
+    console.log(`✅ Admin user created securely: ${admin.email}`);
 
     // Seed data
     await Service.insertMany(services);
@@ -98,7 +102,7 @@ const seed = async () => {
     console.log(`✅ ${defaultContent.length} site content entries seeded`);
 
     console.log('\n🎉 Database seeded successfully!');
-    console.log(`\n📧 Admin Login:\n   Email: ${admin.email}\n   Password: ${process.env.ADMIN_PASSWORD || 'Admin@123456'}`);
+    console.log(`\n📧 Admin Account initialized for: ${admin.email}`);
     process.exit(0);
   } catch (error) {
     console.error('❌ Seed error:', error);

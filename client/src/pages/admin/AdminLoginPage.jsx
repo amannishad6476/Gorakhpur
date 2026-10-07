@@ -104,7 +104,7 @@ const AdminLoginPage = () => {
         {resetMode && (
           <form onSubmit={handleSubmit(onResetPassword)} className="space-y-4">
             <h3 className="text-white font-bold mb-2">Set New Password</h3>
-            <input {...register('newPassword', { required: 'Required', minLength: { value: 8, message: 'Min 8 characters' } })} type="password" placeholder="New password" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            <input {...register('newPassword', { required: 'Required', minLength: { value: 12, message: 'Min 12 characters' } })} type="password" placeholder="New strong password (min 12 chars)" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center">{loading ? 'Resetting...' : 'Reset Password'}</button>
           </form>
         )}
