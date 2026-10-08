@@ -4,6 +4,7 @@ const FAQ = require('../models/FAQ');
 const Testimonial = require('../models/Testimonial');
 const SiteContent = require('../models/SiteContent');
 const Banner = require('../models/Banner');
+const bcrypt = require('bcryptjs');
 const { isStrongPassword } = require('./validation');
 
 const services = [
@@ -52,19 +53,37 @@ const defaultContent = [
 
 const autoSeed = async () => {
   try {
+    // Migrate any legacy unhashed user passwords
+    const existingUsers = await User.find().select('+password');
+    for (const u of existingUsers) {
+      if (u.password && !u.password.startsWith('$2a$') && !u.password.startsWith('$2b$')) {
+        u.password = await bcrypt.hash(u.password, 12);
+        await u.save({ validateBeforeSave: false });
+      }
+    }
+
     const adminCount = await User.countDocuments();
     if (adminCount === 0) {
       const email = process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com';
       const rawPassword = process.env.ADMIN_PASSWORD;
-      const password = (rawPassword && isStrongPassword(rawPassword)) ? rawPassword : (process.env.ADMIN_PASSWORD || 'Admin@123456');
+      
+      let password;
+      if (rawPassword && isStrongPassword(rawPassword)) {
+        password = rawPassword;
+      } else if (rawPassword) {
+        console.warn('⚠️ ADMIN_PASSWORD in .env does not meet complexity requirements. Using secure fallback.');
+        password = 'Munnalal@2026!Admin';
+      } else {
+        password = 'Munnalal@2026!Admin';
+      }
 
       await User.create({
         name: 'Munnalal Painter Admin',
-        email,
+        email: email.toLowerCase().trim(),
         password,
         role: 'superadmin',
       });
-      console.log(`👤 Admin user created securely (${email})`);
+      console.log(`👤 Admin account initialized securely for: ${email}`);
     }
 
     const serviceCount = await Service.countDocuments();

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../config/jwt');
 const User = require('../models/User');
 
 exports.protect = async (req, res, next) => {
@@ -14,8 +14,11 @@ exports.protect = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Not authorized. No token provided.' });
     }
 
-    const jwtSecret = process.env.JWT_SECRET || 'munnalal_painter_secure_jwt_fallback_key_2026';
-    const decoded = jwt.verify(token, jwtSecret);
+    const decoded = verifyToken(token);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
+    }
+
     const user = await User.findById(decoded.id).select('+isActive');
 
     if (!user || !user.isActive) {

@@ -3,20 +3,21 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const OTP = require('../models/OTP');
 const { sendEmail } = require('../config/email');
-const { isStrongPassword } = require('../utils/validation');
+const { isStrongPassword, isValidEmail } = require('../utils/validation');
+const { signToken, getJwtSecret } = require('../config/jwt');
 
-const getJwtSecret = () => process.env.JWT_SECRET || 'munnalal_painter_secure_jwt_fallback_key_2026';
-
-const signToken = (id) =>
-  jwt.sign({ id }, getJwtSecret(), { expiresIn: process.env.JWT_EXPIRE || '7d' });
+// Precomputed dummy hash for timing attack mitigation during invalid login attempts
+const DUMMY_HASH = '$2a$12$e8m4QWl3m9bCjH5Vq8sPueYy5Z1f8sHqI2Jk7k2m5a4c9b8d7e6f0';
 
 const sendTokenResponse = (user, statusCode, res) => {
   const token = signToken(user._id);
+  const isProduction = process.env.NODE_ENV === 'production';
   const options = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: isProduction,
+    sameSite: isProduction ? 'strict' : 'lax',
+    path: '/',
   };
 
   const userObj = user.toObject ? user.toObject() : { ...user };
@@ -31,17 +32,30 @@ const sendTokenResponse = (user, statusCode, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
+  if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
     return res.status(400).json({ success: false, message: 'Please provide email and password.' });
   }
 
-  const user = await User.findOne({ email: email.toLowerCase().trim() }).select('+password');
-  if (!user || !(await user.comparePassword(password))) {
+  const cleanEmail = email.toLowerCase().trim();
+  if (!isValidEmail(cleanEmail)) {
+    return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
+  }
+
+  const user = await User.findOne({ email: cleanEmail }).select('+password');
+  
+  if (!user) {
+    // Constant-time dummy comparison to mitigate timing attacks
+    await bcrypt.compare(password, DUMMY_HASH);
+    return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+  }
+
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
     return res.status(401).json({ success: false, message: 'Invalid email or password.' });
   }
 
   if (!user.isActive) {
-    return res.status(401).json({ success: false, message: 'Account is deactivated.' });
+    return res.status(403).json({ success: false, message: 'Account is deactivated. Please contact support.' });
   }
 
   user.lastLogin = new Date();
@@ -51,11 +65,13 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production';
   res.cookie('token', 'none', {
     expires: new Date(0),
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: isProduction,
+    sameSite: isProduction ? 'strict' : 'lax',
+    path: '/',
   });
   res.json({ success: true, message: 'Logged out successfully.' });
 };
@@ -71,7 +87,7 @@ exports.getMe = async (req, res) => {
 exports.changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
-  if (!currentPassword || !newPassword) {
+  if (!currentPassword || !newPassword || typeof currentPassword !== 'string' || typeof newPassword !== 'string') {
     return res.status(400).json({ success: false, message: 'Current and new password are required.' });
   }
 
@@ -95,8 +111,8 @@ exports.changePassword = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ success: false, message: 'Please provide email.' });
+  if (!email || typeof email !== 'string' || !isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
   }
 
   const user = await User.findOne({ email: email.toLowerCase().trim() });
@@ -127,7 +143,7 @@ exports.forgotPassword = async (req, res) => {
 
 exports.verifyOTP = async (req, res) => {
   const { email, otp } = req.body;
-  if (!email || !otp) {
+  if (!email || !otp || typeof email !== 'string' || typeof otp !== 'string') {
     return res.status(400).json({ success: false, message: 'Email and OTP are required.' });
   }
 
@@ -141,7 +157,7 @@ exports.verifyOTP = async (req, res) => {
     return res.status(400).json({ success: false, message: 'OTP is invalid or has expired.' });
   }
 
-  const isValid = await bcrypt.compare(otp, otpRecord.otp);
+  const isValid = await bcrypt.compare(otp.trim(), otpRecord.otp);
   if (!isValid) {
     return res.status(400).json({ success: false, message: 'Invalid OTP.' });
   }
@@ -156,7 +172,7 @@ exports.verifyOTP = async (req, res) => {
 exports.resetPassword = async (req, res) => {
   const { resetToken, newPassword } = req.body;
 
-  if (!resetToken || !newPassword) {
+  if (!resetToken || !newPassword || typeof resetToken !== 'string' || typeof newPassword !== 'string') {
     return res.status(400).json({ success: false, message: 'Reset token and new password are required.' });
   }
 

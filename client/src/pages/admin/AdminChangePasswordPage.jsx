@@ -5,6 +5,17 @@ import AdminSidebar from '../../components/admin/AdminSidebar';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
+const strongPasswordValidation = {
+  required: 'New password is required',
+  minLength: { value: 12, message: 'Password must be at least 12 characters' },
+  validate: {
+    hasUpper: (v) => /[A-Z]/.test(v) || 'Must contain at least 1 uppercase letter',
+    hasLower: (v) => /[a-z]/.test(v) || 'Must contain at least 1 lowercase letter',
+    hasNumber: (v) => /[0-9]/.test(v) || 'Must contain at least 1 number',
+    hasSpecial: (v) => /[^a-zA-Z0-9]/.test(v) || 'Must contain at least 1 special character',
+  },
+};
+
 const AdminChangePasswordPage = () => {
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
@@ -64,10 +75,10 @@ const AdminChangePasswordPage = () => {
                 <div className="relative">
                   <input
                     type={showNew ? 'text' : 'password'}
-                    {...register('newPassword', { required: 'New password is required', minLength: { value: 6, message: 'Min 6 characters' } })}
+                    {...register('newPassword', strongPasswordValidation)}
                     className="w-full px-4 py-3 rounded-xl border text-sm pr-12"
                     style={inputStyle}
-                    placeholder="Enter new password (min 6 chars)"
+                    placeholder="Enter new strong password (min 12 chars)"
                   />
                   <button type="button" onClick={() => setShowNew(!showNew)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] hover:text-[var(--color-text)]">
@@ -106,12 +117,13 @@ const AdminChangePasswordPage = () => {
             </form>
 
             <div className="mt-6 p-4 rounded-xl" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
-              <h3 className="text-sm font-semibold text-[var(--color-text)] mb-2">Password Tips</h3>
+              <h3 className="text-sm font-semibold text-[var(--color-text)] mb-2">Password Requirements</h3>
               <ul className="text-xs text-[var(--color-text-muted)] space-y-1">
-                <li>• Use at least 8 characters</li>
-                <li>• Include uppercase and lowercase letters</li>
-                <li>• Add numbers and special characters</li>
-                <li>• Avoid common words or personal info</li>
+                <li>• Minimum 12 characters</li>
+                <li>• At least 1 uppercase letter (A-Z)</li>
+                <li>• At least 1 lowercase letter (a-z)</li>
+                <li>• At least 1 number (0-9)</li>
+                <li>• At least 1 special character (!@#$%^&*...)</li>
               </ul>
             </div>
           </motion.div>

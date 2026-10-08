@@ -6,6 +6,17 @@ import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import api from '../../api/axiosInstance';
 
+const strongPasswordValidation = {
+  required: 'New password is required',
+  minLength: { value: 12, message: 'Password must be at least 12 characters' },
+  validate: {
+    hasUpper: (v) => /[A-Z]/.test(v) || 'Must contain at least 1 uppercase letter',
+    hasLower: (v) => /[a-z]/.test(v) || 'Must contain at least 1 lowercase letter',
+    hasNumber: (v) => /[0-9]/.test(v) || 'Must contain at least 1 number',
+    hasSpecial: (v) => /[^a-zA-Z0-9]/.test(v) || 'Must contain at least 1 special character',
+  },
+};
+
 const AdminLoginPage = () => {
   const { user, login } = useAuth();
   const navigate = useNavigate();
@@ -15,7 +26,7 @@ const AdminLoginPage = () => {
   const [resetMode, setResetMode] = useState(false);
   const [resetToken, setResetToken] = useState('');
   const [otpEmail, setOtpEmail] = useState('');
-  const { register, handleSubmit, formState: { errors }, getValues } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   if (user) return <Navigate to="/admin/dashboard" replace />;
 
@@ -37,7 +48,7 @@ const AdminLoginPage = () => {
       setOtpEmail(data.forgotEmail);
       setOtpMode(true);
       toast.success('OTP sent to your email!');
-    } catch (err) { toast.error(err.response?.data?.message || 'Email not found'); } finally { setLoading(false); }
+    } catch (err) { toast.error(err.response?.data?.message || 'Failed to send OTP'); } finally { setLoading(false); }
   };
 
   const onVerifyOTP = async (data) => {
@@ -72,13 +83,15 @@ const AdminLoginPage = () => {
           <form onSubmit={handleSubmit(onLogin)} className="space-y-4">
             <div>
               <label className="block text-white/80 text-sm mb-1.5">Email Address</label>
-              <input {...register('email', { required: 'Required' })} type="email" placeholder="amannishad6476@gmail.com"
+              <input {...register('email', { required: 'Email is required' })} type="email" placeholder="admin@example.com"
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: `1px solid ${errors.email ? '#ef4444' : 'rgba(255,255,255,0.2)'}`, color: '#fff' }} />
+              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
             </div>
             <div>
               <label className="block text-white/80 text-sm mb-1.5">Password</label>
-              <input {...register('password', { required: 'Required' })} type="password" placeholder="••••••••"
+              <input {...register('password', { required: 'Password is required' })} type="password" placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: `1px solid ${errors.password ? '#ef4444' : 'rgba(255,255,255,0.2)'}`, color: '#fff' }} />
+              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center mt-2">{loading ? '⏳ Signing in...' : '🔐 Sign In'}</button>
             <button type="button" onClick={() => setForgotMode(true)} className="w-full text-center text-white/60 text-sm hover:text-[#d4a017] transition-colors">Forgot Password?</button>
@@ -88,7 +101,8 @@ const AdminLoginPage = () => {
           <form onSubmit={handleSubmit(onForgotPassword)} className="space-y-4">
             <h3 className="text-white font-bold mb-2">Forgot Password</h3>
             <p className="text-white/60 text-sm mb-4">Enter your admin email and we'll send an OTP.</p>
-            <input {...register('forgotEmail', { required: 'Required' })} type="email" placeholder="your@email.com" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            <input {...register('forgotEmail', { required: 'Email is required' })} type="email" placeholder="your@email.com" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            {errors.forgotEmail && <p className="text-red-400 text-xs mt-1">{errors.forgotEmail.message}</p>}
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center">{loading ? 'Sending...' : 'Send OTP'}</button>
             <button type="button" onClick={() => setForgotMode(false)} className="w-full text-center text-white/60 text-sm hover:text-white">Back to Login</button>
           </form>
@@ -96,15 +110,20 @@ const AdminLoginPage = () => {
         {otpMode && !resetMode && (
           <form onSubmit={handleSubmit(onVerifyOTP)} className="space-y-4">
             <h3 className="text-white font-bold mb-2">Verify OTP</h3>
-            <p className="text-white/60 text-sm mb-4">Enter the 6-digit OTP sent to {otpEmail}.</p>
-            <input {...register('otp', { required: 'Required', minLength: { value: 6, message: '6 digits required' } })} type="text" placeholder="123456" maxLength="6" className="w-full px-4 py-3 rounded-xl text-sm outline-none text-center text-2xl tracking-widest" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            <p className="text-white/60 text-sm mb-4">Enter the 6-digit OTP sent to your email.</p>
+            <input {...register('otp', { required: 'OTP is required', minLength: { value: 6, message: '6 digits required' } })} type="text" placeholder="123456" maxLength="6" className="w-full px-4 py-3 rounded-xl text-sm outline-none text-center text-2xl tracking-widest" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            {errors.otp && <p className="text-red-400 text-xs mt-1">{errors.otp.message}</p>}
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center">{loading ? 'Verifying...' : 'Verify OTP'}</button>
           </form>
         )}
         {resetMode && (
           <form onSubmit={handleSubmit(onResetPassword)} className="space-y-4">
             <h3 className="text-white font-bold mb-2">Set New Password</h3>
-            <input {...register('newPassword', { required: 'Required', minLength: { value: 12, message: 'Min 12 characters' } })} type="password" placeholder="New strong password (min 12 chars)" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            <input {...register('newPassword', strongPasswordValidation)} type="password" placeholder="New strong password (min 12 chars)" className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }} />
+            {errors.newPassword && <p className="text-red-400 text-xs mt-1">{errors.newPassword.message}</p>}
+            <div className="p-3 rounded-lg text-xs text-white/70 space-y-0.5" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <p>• Min 12 chars, upper, lower, number, special char</p>
+            </div>
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center">{loading ? 'Resetting...' : 'Reset Password'}</button>
           </form>
         )}

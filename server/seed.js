@@ -77,12 +77,21 @@ const seed = async () => {
 
     const { isStrongPassword } = require('./src/utils/validation');
     const rawPass = process.env.ADMIN_PASSWORD;
-    const adminPass = (rawPass && isStrongPassword(rawPass)) ? rawPass : 'Munnalal@2026!Admin';
+    let adminPass;
+    if (rawPass && isStrongPassword(rawPass)) {
+      adminPass = rawPass;
+    } else if (rawPass) {
+      console.warn('⚠️ ADMIN_PASSWORD in environment does not meet complexity requirements. Using secure fallback.');
+      adminPass = 'Munnalal@2026!Admin';
+    } else {
+      adminPass = 'Munnalal@2026!Admin';
+    }
 
     // Create admin user
+    const adminEmail = (process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com').toLowerCase().trim();
     const admin = await User.create({
       name: 'Munnalal Painter Admin',
-      email: process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com',
+      email: adminEmail,
       password: adminPass,
       role: 'superadmin',
     });

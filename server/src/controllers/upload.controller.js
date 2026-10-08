@@ -32,14 +32,15 @@ exports.deleteImage = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Public ID or image URL is required.' });
   }
 
-  const targetPublicId = publicId || '';
-  const targetUrl = url || '';
+  const targetPublicId = typeof publicId === 'string' ? publicId.trim() : '';
+  const targetUrl = typeof url === 'string' ? url.trim() : '';
 
   if (targetPublicId.startsWith('local:') || targetUrl.includes('/uploads/')) {
-    const filename = targetPublicId.startsWith('local:')
+    const rawName = targetPublicId.startsWith('local:')
       ? targetPublicId.replace('local:', '')
       : path.basename(targetUrl);
-    const filePath = path.join(__dirname, '../../uploads', filename);
+    const safeFilename = path.basename(rawName);
+    const filePath = path.join(__dirname, '../../uploads', safeFilename);
 
     if (fs.existsSync(filePath)) {
       try {

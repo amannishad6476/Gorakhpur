@@ -7,7 +7,6 @@ const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
-
 const path = require('path');
 
 const connectDB = require('./config/db');
@@ -31,12 +30,14 @@ const statsRoutes = require('./routes/stats.routes');
 const activityRoutes = require('./routes/activity.routes');
 const projectRoutes = require('./routes/project.routes');
 
-// Connect to DB
-connectDB();
+// Connect to DB (skip immediate connection if test sets it up)
+if (process.env.NODE_ENV !== 'test') {
+  connectDB();
+}
 
 const app = express();
 
-// Security middleware
+// Security headers
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
@@ -48,23 +49,32 @@ const getCorsOrigin = (origin, callback) => {
   const cleanOrigin = origin.replace(/\/+$/, '');
   
   if (!process.env.CLIENT_URL || process.env.CLIENT_URL === '*') {
-    return callback(null, origin);
+    if (process.env.NODE_ENV === 'production') {
+      if (
+        cleanOrigin.endsWith('.onrender.com') ||
+        cleanOrigin.endsWith('.vercel.app') ||
+        cleanOrigin.endsWith('.netlify.app')
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    }
+    return callback(null, true);
   }
 
   const allowedOrigins = process.env.CLIENT_URL.split(',').map(url => url.trim().replace(/\/+$/, ''));
   
   if (
     allowedOrigins.includes(cleanOrigin) ||
-    cleanOrigin.includes('localhost') ||
-    cleanOrigin.includes('127.0.0.1') ||
+    (process.env.NODE_ENV !== 'production' && (cleanOrigin.includes('localhost') || cleanOrigin.includes('127.0.0.1'))) ||
     cleanOrigin.endsWith('.onrender.com') ||
     cleanOrigin.endsWith('.vercel.app') ||
     cleanOrigin.endsWith('.netlify.app')
   ) {
-    return callback(null, origin);
+    return callback(null, true);
   }
 
-  return callback(null, origin);
+  return callback(new Error('Not allowed by CORS'));
 };
 
 app.use(cors({
@@ -79,7 +89,10 @@ app.use(xss());
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(morgan('dev'));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 
 // Static files for uploaded images
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -121,15 +134,18 @@ app.use((req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+let server;
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 5000;
+  server = app.listen(PORT, () => {
+    console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.error(`❌ Unhandled Rejection: ${err.message}`);
-  server.close(() => process.exit(1));
-});
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (err) => {
+    console.error(`❌ Unhandled Rejection: ${err.message}`);
+    server.close(() => process.exit(1));
+  });
+}
 
 module.exports = app;
