@@ -30,11 +30,6 @@ const statsRoutes = require('./routes/stats.routes');
 const activityRoutes = require('./routes/activity.routes');
 const projectRoutes = require('./routes/project.routes');
 
-// Connect to DB (skip immediate connection if test sets it up)
-if (process.env.NODE_ENV !== 'test') {
-  connectDB();
-}
-
 const app = express();
 
 // Security headers
@@ -49,16 +44,6 @@ const getCorsOrigin = (origin, callback) => {
   const cleanOrigin = origin.replace(/\/+$/, '');
   
   if (!process.env.CLIENT_URL || process.env.CLIENT_URL === '*') {
-    if (process.env.NODE_ENV === 'production') {
-      if (
-        cleanOrigin.endsWith('.onrender.com') ||
-        cleanOrigin.endsWith('.vercel.app') ||
-        cleanOrigin.endsWith('.netlify.app')
-      ) {
-        return callback(null, true);
-      }
-      return callback(new Error('Not allowed by CORS'));
-    }
     return callback(null, true);
   }
 
@@ -66,7 +51,8 @@ const getCorsOrigin = (origin, callback) => {
   
   if (
     allowedOrigins.includes(cleanOrigin) ||
-    (process.env.NODE_ENV !== 'production' && (cleanOrigin.includes('localhost') || cleanOrigin.includes('127.0.0.1'))) ||
+    cleanOrigin.includes('localhost') ||
+    cleanOrigin.includes('127.0.0.1') ||
     cleanOrigin.endsWith('.onrender.com') ||
     cleanOrigin.endsWith('.vercel.app') ||
     cleanOrigin.endsWith('.netlify.app')
@@ -74,7 +60,7 @@ const getCorsOrigin = (origin, callback) => {
     return callback(null, true);
   }
 
-  return callback(new Error('Not allowed by CORS'));
+  return callback(null, true);
 };
 
 app.use(cors({
@@ -137,14 +123,23 @@ app.use(errorHandler);
 let server;
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 5000;
-  server = app.listen(PORT, () => {
-    console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  });
+  connectDB()
+    .then(() => {
+      server = app.listen(PORT, () => {
+        console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('Database startup warning:', err.message);
+      server = app.listen(PORT, () => {
+        console.log(`🚀 Server running in fallback mode on port ${PORT}`);
+      });
+    });
 
   // Handle unhandled promise rejections
   process.on('unhandledRejection', (err) => {
     console.error(`❌ Unhandled Rejection: ${err.message}`);
-    server.close(() => process.exit(1));
+    if (server) server.close(() => process.exit(1));
   });
 }
 

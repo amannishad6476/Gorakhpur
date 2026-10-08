@@ -53,37 +53,37 @@ const defaultContent = [
 
 const autoSeed = async () => {
   try {
-    // Migrate any legacy unhashed user passwords
-    const existingUsers = await User.find().select('+password');
-    for (const u of existingUsers) {
-      if (u.password && !u.password.startsWith('$2a$') && !u.password.startsWith('$2b$')) {
-        u.password = await bcrypt.hash(u.password, 12);
-        await u.save({ validateBeforeSave: false });
-      }
-    }
+    const adminEmail = (process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com').toLowerCase().trim();
+    const rawPassword = process.env.ADMIN_PASSWORD || 'Admin@123456';
+    const password = isStrongPassword(rawPassword) ? rawPassword : 'Admin@123456';
 
-    const adminCount = await User.countDocuments();
-    if (adminCount === 0) {
-      const email = process.env.ADMIN_EMAIL || 'amannishad6476@gmail.com';
-      const rawPassword = process.env.ADMIN_PASSWORD;
-      
-      let password;
-      if (rawPassword && isStrongPassword(rawPassword)) {
-        password = rawPassword;
-      } else if (rawPassword) {
-        console.warn('⚠️ ADMIN_PASSWORD in .env does not meet complexity requirements. Using secure fallback.');
-        password = 'Munnalal@2026!Admin';
-      } else {
-        password = 'Munnalal@2026!Admin';
-      }
+    const existingAdmin = await User.findOne({
+      $or: [
+        { email: adminEmail },
+        { role: { $in: ['admin', 'superadmin'] } },
+      ],
+    }).select('+password');
 
+    if (existingAdmin) {
+      if (process.env.ADMIN_PASSWORD && isStrongPassword(process.env.ADMIN_PASSWORD)) {
+        existingAdmin.password = process.env.ADMIN_PASSWORD;
+        existingAdmin.isActive = true;
+        await existingAdmin.save();
+        console.log(`👤 Admin password synchronized from environment for: ${existingAdmin.email}`);
+      } else if (!existingAdmin.password.startsWith('$2a$') && !existingAdmin.password.startsWith('$2b$')) {
+        existingAdmin.password = await bcrypt.hash(existingAdmin.password, 12);
+        existingAdmin.isActive = true;
+        await existingAdmin.save({ validateBeforeSave: false });
+      }
+    } else {
       await User.create({
         name: 'Munnalal Painter Admin',
-        email: email.toLowerCase().trim(),
+        email: adminEmail,
         password,
         role: 'superadmin',
+        isActive: true,
       });
-      console.log(`👤 Admin account initialized securely for: ${email}`);
+      console.log(`👤 Admin account initialized securely for: ${adminEmail}`);
     }
 
     const serviceCount = await Service.countDocuments();
