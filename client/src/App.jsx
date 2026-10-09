@@ -11,6 +11,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FloatingButtons from './components/layout/FloatingButtons';
 import LoadingSpinner from './components/ui/LoadingSpinner';
+import SEOHead from './components/layout/SEOHead';
 
 // Public Pages (lazy loaded)
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -76,6 +77,7 @@ const PublicLayout = ({ children }) => (
 // Admin layout wrapper (no public nav/footer)
 const AdminLayout = ({ children }) => (
   <div style={{ background: 'var(--color-surface)', minHeight: '100vh' }}>
+    <SEOHead title="Admin Portal - Munnalal Painter" noIndex={true} />
     {children}
   </div>
 );
@@ -153,6 +155,7 @@ function App() {
 
 const NotFoundPage = () => (
   <div className="min-h-screen flex items-center justify-center text-center px-4">
+    <SEOHead title="404 - Page Not Found" noIndex={true} />
     <div>
       <div className="text-8xl mb-6">🎨</div>
       <h1 className="text-6xl font-black text-gradient-gold mb-4">404</h1>

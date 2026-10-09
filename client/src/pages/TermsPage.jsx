@@ -3,7 +3,7 @@ import Breadcrumb from '../components/layout/Breadcrumb';
 
 const TermsPage = () => (
   <>
-    <SEOHead title="Terms & Conditions - Munnalal Painter" description="Terms and Conditions for Munnalal Painter painting services in Gorakhpur." canonical="/terms-conditions" noIndex />
+    <SEOHead title="Terms & Conditions - Munnalal Painter" description="Terms and Conditions for Munnalal Painter painting services in Gorakhpur." canonical="/terms-conditions" />
     <div className="pt-20" style={{ background: 'linear-gradient(135deg, #071020 0%, #1e3a5f 100%)' }}>
       <div className="container-custom py-16">
         <Breadcrumb items={[{ name: 'Terms & Conditions', href: '/terms-conditions' }]} />
