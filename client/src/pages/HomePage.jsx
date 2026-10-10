@@ -99,7 +99,7 @@ const HomePage = () => (
   <>
     <SEOHead
       title={null}
-      description="Munnalal Painter - Best painter in Gorakhpur, UP. Professional house painting, interior, exterior, texture painting, waterproofing, POP design. 15+ years experience. Free estimate."
+      description="Gorakhpur Painter - Best painter in Gorakhpur, UP. Professional house painting, interior, exterior, texture painting, waterproofing, POP design. 15+ years experience. Free estimate."
       canonical="/"
       breadcrumbs={[{ name: 'Home', href: '/' }]}
     />

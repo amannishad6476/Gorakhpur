@@ -38,7 +38,7 @@ const BlogPostPage = () => {
     headline: blog.metaTitle || blog.title,
     description: blog.metaDescription || blog.excerpt,
     image: blog.coverImage || SEO_CONFIG.defaultImage,
-    author: { '@type': 'Person', name: blog.author || 'Munnalal Painter' },
+    author: { '@type': 'Person', name: blog.author || 'Gorakhpur Painter' },
     publisher: {
       '@type': 'Organization',
       name: SEO_CONFIG.siteName,

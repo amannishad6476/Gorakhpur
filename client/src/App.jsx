@@ -77,7 +77,7 @@ const PublicLayout = ({ children }) => (
 // Admin layout wrapper (no public nav/footer)
 const AdminLayout = ({ children }) => (
   <div style={{ background: 'var(--color-surface)', minHeight: '100vh' }}>
-    <SEOHead title="Admin Portal - Munnalal Painter" noIndex={true} />
+    <SEOHead title="Admin Portal - Gorakhpur Painter" noIndex={true} />
     {children}
   </div>
 );

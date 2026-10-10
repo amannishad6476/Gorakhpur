@@ -22,7 +22,7 @@ const BlogListPage = () => {
 
   return (
     <>
-      <SEOHead title="Painting Tips, Guides & Articles - Gorakhpur Painter Blog" description="Expert painting tips, guides, color ideas, and home improvement articles from Munnalal Painter Gorakhpur. Learn about interior, exterior, texture painting and more." canonical="/blog" breadcrumbs={[{ name: 'Blog', href: '/blog' }]} />
+      <SEOHead title="Painting Tips, Guides & Articles - Gorakhpur Painter Blog" description="Expert painting tips, guides, color ideas, and home improvement articles from Gorakhpur Painter. Learn about interior, exterior, texture painting and more." canonical="/blog" breadcrumbs={[{ name: 'Blog', href: '/blog' }]} />
       <div className="pt-20" style={{ background: 'linear-gradient(135deg, #071020 0%, #1e3a5f 100%)' }}>
         <div className="container-custom py-16">
           <Breadcrumb items={[{ name: 'Blog', href: '/blog' }]} />

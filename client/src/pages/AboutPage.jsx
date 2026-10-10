@@ -29,7 +29,7 @@ const AboutPage = () => {
     <>
       <SEOHead
         title="About Us - 15+ Years of Painting Excellence in Gorakhpur"
-        description="Learn about Munnalal Painter - Gorakhpur's trusted painting contractor since 2009. 15+ years experience, 2500+ projects, 1800+ happy clients across Gorakhpur, UP."
+        description="Learn about Gorakhpur Painter - Gorakhpur's trusted painting contractor since 2009. 15+ years experience, 2500+ projects, 1800+ happy clients across Gorakhpur, UP."
         canonical="/about"
         breadcrumbs={[{ name: 'About Us', href: '/about' }]}
       />

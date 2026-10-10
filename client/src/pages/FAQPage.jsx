@@ -32,7 +32,7 @@ const FAQPage = () => {
     <>
       <SEOHead
         title="Frequently Asked Questions - Painter in Gorakhpur"
-        description="FAQs about painting services in Gorakhpur. Painting costs, timeline, warranty, brands used, service areas and more. Munnalal Painter answers your questions."
+        description="FAQs about painting services in Gorakhpur. Painting costs, timeline, warranty, brands used, service areas and more. Gorakhpur Painter answers your questions."
         canonical="/faq"
         breadcrumbs={[{ name: 'FAQs', href: '/faq' }]}
         schemaMarkup={faqSchema}

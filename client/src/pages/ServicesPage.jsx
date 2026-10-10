@@ -22,7 +22,7 @@ const ServicesPage = () => {
     <>
       <SEOHead
         title="All Painting Services in Gorakhpur - House, Interior, Exterior & More"
-        description="Munnalal Painter offers professional painting services in Gorakhpur: house painting, interior, exterior, texture, waterproofing, POP design, wood polish, and more."
+        description="Gorakhpur Painter offers professional painting services in Gorakhpur: house painting, interior, exterior, texture, waterproofing, POP design, wood polish, and more."
         canonical="/services"
         breadcrumbs={[{ name: 'Services', href: '/services' }]}
       />

@@ -25,7 +25,7 @@ const ServiceAreasPage = () => (
   <>
     <SEOHead
       title="Painter Service Areas - Gorakhpur, Deoria, Kushinagar & Nearby"
-      description="Munnalal Painter serves all of Gorakhpur city, district, and surrounding areas including Deoria, Kushinagar, Maharajganj, Basti, Siddharthnagar. Best painter in Eastern UP."
+      description="Gorakhpur Painter serves all of Gorakhpur city, district, and surrounding areas including Deoria, Kushinagar, Maharajganj, Basti, Siddharthnagar. Best painter in Eastern UP."
       canonical="/service-areas"
       breadcrumbs={[{ name: 'Service Areas', href: '/service-areas' }]}
     />

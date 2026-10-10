@@ -4,7 +4,7 @@ import { SEO_CONFIG } from '../utils/seo';
 
 const PrivacyPolicyPage = () => (
   <>
-    <SEOHead title="Privacy Policy - Munnalal Painter" description="Privacy Policy for Munnalal Painter. How we collect, use and protect your personal information." canonical="/privacy-policy" />
+    <SEOHead title="Privacy Policy - Gorakhpur Painter" description="Privacy Policy for Gorakhpur Painter. How we collect, use and protect your personal information." canonical="/privacy-policy" />
     <div className="pt-20" style={{ background: 'linear-gradient(135deg, #071020 0%, #1e3a5f 100%)' }}>
       <div className="container-custom py-16">
         <Breadcrumb items={[{ name: 'Privacy Policy', href: '/privacy-policy' }]} />

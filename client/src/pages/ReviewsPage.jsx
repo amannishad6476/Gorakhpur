@@ -15,7 +15,7 @@ const ReviewsPage = () => {
 
   return (
     <>
-      <SEOHead title="Customer Reviews - Munnalal Painter Gorakhpur" description="Read genuine customer reviews for Munnalal Painter in Gorakhpur. 1800+ happy clients, 4.9/5 rating. Submit your own review." canonical="/reviews" breadcrumbs={[{ name: 'Reviews', href: '/reviews' }]} />
+      <SEOHead title="Customer Reviews - Gorakhpur Painter" description="Read genuine customer reviews for Gorakhpur Painter in Gorakhpur. 1800+ happy clients, 4.9/5 rating. Submit your own review." canonical="/reviews" breadcrumbs={[{ name: 'Reviews', href: '/reviews' }]} />
       <div className="pt-20" style={{ background: 'linear-gradient(135deg, #071020 0%, #1e3a5f 100%)' }}>
         <div className="container-custom py-16">
           <Breadcrumb items={[{ name: 'Reviews', href: '/reviews' }]} />

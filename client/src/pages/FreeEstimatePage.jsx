@@ -5,8 +5,8 @@ import EstimateForm from '../components/forms/EstimateForm';
 const FreeEstimatePage = () => (
   <>
     <SEOHead
-      title="Free Painting Estimate in Gorakhpur | Munnalal Painter"
-      description="Get a free painting estimate in Gorakhpur from Munnalal Painter. No obligation. Fill the form and our expert will visit within 24 hours."
+      title="Free Painting Estimate in Gorakhpur | Gorakhpur Painter"
+      description="Get a free painting estimate in Gorakhpur from Gorakhpur Painter. No obligation. Fill the form and our expert will visit within 24 hours."
       canonical="/free-estimate"
       breadcrumbs={[{ name: 'Free Estimate', href: '/free-estimate' }]}
     />

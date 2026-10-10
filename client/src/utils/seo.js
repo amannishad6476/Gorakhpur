@@ -1,9 +1,9 @@
 export const SEO_CONFIG = {
-  siteName: 'Munnalal Painter',
-  siteUrl: 'https://munnalalpainter.com',
-  defaultTitle: 'Munnalal Painter | Best Painter in Gorakhpur, UP',
-  defaultDescription: 'Munnalal Painter offers professional house painting, interior, exterior, texture painting, waterproofing, POP design & more in Gorakhpur, UP. 15+ years experience. Free estimate.',
-  defaultImage: 'https://munnalalpainter.com/og-image.jpg',
+  siteName: 'Gorakhpur Painter',
+  siteUrl: 'https://www.gorakhpurpainter.com',
+  defaultTitle: 'Gorakhpur Painter | Best Painter in Gorakhpur, UP',
+  defaultDescription: 'Gorakhpur Painter offers professional house painting, interior, exterior, texture painting, waterproofing, POP design & more in Gorakhpur, UP. 15+ years experience. Free estimate.',
+  defaultImage: 'https://www.gorakhpurpainter.com/og-image.jpg',
   phone: '7668415684',
   whatsapp: '+918303719864',
   email: 'amannishad6476@gmail.com',
@@ -63,8 +63,8 @@ export const localBusinessSchema = {
   hasMap: SEO_CONFIG.mapEmbedUrl,
   image: SEO_CONFIG.defaultImage,
   sameAs: [
-    'https://www.facebook.com/munnalalpainter',
-    'https://www.instagram.com/munnalalpainter',
-    'https://g.page/munnalalpainter',
+    'https://www.facebook.com/gorakhpurpainter',
+    'https://www.instagram.com/gorakhpurpainter',
+    'https://g.page/gorakhpurpainter',
   ],
 };

@@ -41,7 +41,7 @@ const ProjectsPage = () => {
     <>
       <SEOHead
         title="Our Projects - Painting Work Portfolio in Gorakhpur"
-        description="Explore Munnalal Painter's project portfolio - residential, commercial, interior, exterior painting projects across Gorakhpur, UP. View before & after transformations."
+        description="Explore Gorakhpur Painter's project portfolio - residential, commercial, interior, exterior painting projects across Gorakhpur, UP. View before & after transformations."
         canonical="/projects"
         breadcrumbs={[{ name: 'Projects', href: '/projects' }]}
       />

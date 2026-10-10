@@ -25,14 +25,14 @@ const ServiceDetailPage = () => {
     </div>
   );
 
-  const s = service || { title: staticService?.title, slug, description: `<p>Professional ${staticService?.title} services in Gorakhpur by Munnalal Painter. Contact us for a free estimate.</p>`, features: ['Premium quality paints', 'Expert painters', 'On-time completion', '1-year warranty'] };
+  const s = service || { title: staticService?.title, slug, description: `<p>Professional ${staticService?.title} services in Gorakhpur by Gorakhpur Painter. Contact us for a free estimate.</p>`, features: ['Premium quality paints', 'Expert painters', 'On-time completion', '1-year warranty'] };
   const relatedServices = SERVICES.filter(rs => rs.slug !== slug).slice(0, 4);
 
   return (
     <>
       <SEOHead
-        title={s.metaTitle || `${s.title} in Gorakhpur | Munnalal Painter`}
-        description={s.metaDescription || `Professional ${s.title} in Gorakhpur. Expert painters, premium quality, affordable prices. Free estimate available. Call Munnalal Painter.`}
+        title={s.metaTitle || `${s.title} in Gorakhpur | Gorakhpur Painter`}
+        description={s.metaDescription || `Professional ${s.title} in Gorakhpur. Expert painters, premium quality, affordable prices. Free estimate available. Call Gorakhpur Painter.`}
         canonical={`/services/${slug}`}
         breadcrumbs={[{ name: 'Services', href: '/services' }, { name: s.title, href: `/services/${slug}` }]}
       />

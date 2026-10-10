@@ -7,8 +7,8 @@ import MapSection from '../components/home/MapSection';
 const ContactPage = () => (
   <>
     <SEOHead
-      title="Contact Us - Painter in Gorakhpur | Munnalal Painter"
-      description={`Contact Munnalal Painter for professional painting services in Gorakhpur. Call ${SEO_CONFIG.phone}, WhatsApp ${SEO_CONFIG.whatsapp}, or fill the form. Free estimate available.`}
+      title="Contact Us - Painter in Gorakhpur | Gorakhpur Painter"
+      description={`Contact Gorakhpur Painter for professional painting services in Gorakhpur. Call ${SEO_CONFIG.phone}, WhatsApp ${SEO_CONFIG.whatsapp}, or fill the form. Free estimate available.`}
       canonical="/contact"
       breadcrumbs={[{ name: 'Contact', href: '/contact' }]}
     />
