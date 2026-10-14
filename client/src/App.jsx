@@ -12,6 +12,7 @@ import Footer from './components/layout/Footer';
 import FloatingButtons from './components/layout/FloatingButtons';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SEOHead from './components/layout/SEOHead';
+import Icon from './components/ui/Icon';
 
 // Public Pages (lazy loaded)
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -157,7 +158,7 @@ const NotFoundPage = () => (
   <div className="min-h-screen flex items-center justify-center text-center px-4">
     <SEOHead title="404 - Page Not Found" noIndex={true} />
     <div>
-      <div className="text-8xl mb-6">🎨</div>
+      <div className="flex justify-center text-[#d4a017] mb-6"><Icon name="palette" size={72} /></div>
       <h1 className="text-6xl font-black text-gradient-gold mb-4">404</h1>
       <h2 className="text-2xl font-bold text-[var(--color-text)] mb-4">Page Not Found</h2>
       <p className="text-[var(--color-text-muted)] mb-8">The page you're looking for doesn't exist.</p>

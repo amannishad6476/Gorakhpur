@@ -1,12 +1,13 @@
 import SectionHeader from '../ui/SectionHeader';
 import { SEO_CONFIG } from '../../utils/seo';
 import { Link } from 'react-router-dom';
+import Icon from '../ui/Icon';
 
 const MapSection = () => (
   <section className="section-padding" style={{ background: 'var(--color-surface)' }}>
     <div className="container-custom">
       <SectionHeader
-        badge="📍 Find Us"
+        badge={<><Icon name="location" size={15} /> Find Us</>}
         title="Visit Us In"
         titleHighlight="Gorakhpur"
         subtitle="We serve all areas of Gorakhpur and nearby districts. Our team is ready to visit your location for a free on-site estimate."
@@ -30,14 +31,14 @@ const MapSection = () => (
 
         <div className="space-y-4">
           {[
-            { icon: '📍', title: 'Our Location', info: SEO_CONFIG.address },
-            { icon: '📞', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
-            { icon: '💬', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
-            { icon: '✉️', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
-            { icon: '🕐', title: 'Working Hours', info: 'Mon-Sat: 8am - 8pm\nSunday: 9am - 6pm' },
+            { icon: 'location', title: 'Our Location', info: SEO_CONFIG.address },
+            { icon: 'phone', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
+            { icon: 'message', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
+            { icon: 'mail', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
+            { icon: 'calendar', title: 'Working Hours', info: 'Mon-Sat: 8am - 8pm\nSunday: 9am - 6pm' },
           ].map((item) => (
             <div key={item.title} className="card p-4 flex items-start gap-3">
-              <span className="text-2xl">{item.icon}</span>
+              <Icon name={item.icon} size={22} className="text-[#d4a017]" />
               <div>
                 <p className="font-semibold text-[var(--color-text)] text-sm mb-0.5">{item.title}</p>
                 {item.href ? (
@@ -50,7 +51,7 @@ const MapSection = () => (
           ))}
 
           <Link to="/free-estimate" className="btn-primary w-full justify-center">
-            🎨 Get Free On-Site Estimate
+            <Icon name="palette" size={16} /> Get Free On-Site Estimate
           </Link>
         </div>
       </div>

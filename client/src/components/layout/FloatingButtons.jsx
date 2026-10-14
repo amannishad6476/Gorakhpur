@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEO_CONFIG } from '../../utils/seo';
+import Icon from '../ui/Icon';
 
 const FloatingButtons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -29,7 +30,7 @@ const FloatingButtons = () => {
         whileTap={{ scale: 0.95 }}
         aria-label="Chat on WhatsApp"
       >
-        <span>💬</span>
+        <Icon name="message" size={22} />
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{ border: '2px solid #25D366' }}
@@ -50,7 +51,7 @@ const FloatingButtons = () => {
         whileTap={{ scale: 0.95 }}
         aria-label="Call Now"
       >
-        <span>📞</span>
+        <Icon name="phone" size={22} />
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{ border: '2px solid #d4a017' }}
@@ -72,7 +73,7 @@ const FloatingButtons = () => {
             whileHover={{ scale: 1.1 }}
             aria-label="Scroll to top"
           >
-            ↑
+            <Icon name="arrowUp" size={19} />
           </motion.button>
         )}
       </AnimatePresence>

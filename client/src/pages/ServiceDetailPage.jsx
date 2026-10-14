@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
 import { SERVICES } from '../utils/constants';
 import { SEO_CONFIG } from '../utils/seo';
+import Icon from '../components/ui/Icon';
 
 const ServiceDetailPage = () => {
   const { slug } = useParams();
@@ -41,7 +42,7 @@ const ServiceDetailPage = () => {
           <Breadcrumb items={[{ name: 'Services', href: '/services' }, { name: s.title }]} />
           <div className="flex items-start gap-6 mt-4">
             <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0" style={{ background: staticService?.color || 'rgba(212,160,23,0.2)' }}>
-              {staticService?.icon || '🎨'}
+              <Icon name={staticService?.icon || 'palette'} size={34} />
             </div>
             <div>
               <h1 className="text-3xl md:text-5xl font-black text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>{s.title}</h1>
@@ -77,7 +78,7 @@ const ServiceDetailPage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {s.features.map((f, i) => (
                       <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
-                        <span className="text-[#d4a017] font-bold">✔</span>
+                        <Icon name="check" size={16} className="text-[#d4a017]" />
                         <span className="text-[var(--color-text)] text-sm">{f}</span>
                       </motion.div>
                     ))}
@@ -90,9 +91,9 @@ const ServiceDetailPage = () => {
                 <h3 className="font-bold text-[var(--color-text)] mb-4">Get Free Estimate</h3>
                 <p className="text-[var(--color-text-muted)] text-sm mb-4">Contact us for a free on-site estimate for {s.title} in Gorakhpur.</p>
                 <div className="space-y-3">
-                  <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center">📞 Call Now</a>
-                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm" style={{ background: '#25D366', color: '#fff' }}>💬 WhatsApp Us</a>
-                  <Link to="/free-estimate" className="btn-secondary w-full justify-center text-[var(--color-text)]" style={{ borderColor: 'var(--color-border)' }}>📋 Fill Estimate Form</Link>
+                  <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center"><Icon name="phone" size={16} /> Call Now</a>
+                  <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm" style={{ background: '#25D366', color: '#fff' }}><Icon name="message" size={16} /> WhatsApp Us</a>
+                  <Link to="/free-estimate" className="btn-secondary w-full justify-center text-[var(--color-text)]" style={{ borderColor: 'var(--color-border)' }}><Icon name="clipboard" size={16} /> Fill Estimate Form</Link>
                 </div>
               </div>
               <div className="card p-6">
@@ -100,7 +101,7 @@ const ServiceDetailPage = () => {
                 <div className="space-y-2">
                   {relatedServices.map(rs => (
                     <Link key={rs.slug} to={`/services/${rs.slug}`} className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors py-1">
-                      <span>{rs.icon}</span>{rs.title}
+                      <Icon name={rs.icon} size={16} />{rs.title}
                     </Link>
                   ))}
                 </div>

@@ -6,6 +6,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ImageUploader from '../../components/admin/ImageUploader';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const emptyForm = {
   title: '',
@@ -154,7 +155,7 @@ const BannerForm = ({ initial, onSave, onCancel, loading }) => {
             />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             <span className="ml-3 text-sm font-semibold text-[var(--color-text)]">
-              ⭐ Primary / First Slide
+              <Icon name="star" size={15} /> Primary / First Slide
             </span>
           </label>
         </div>
@@ -283,7 +284,7 @@ const AdminBannersPage = () => {
           <div className="space-y-4">
             {(!data || data.length === 0) && (
               <div className="card p-10 text-center text-[var(--color-text-muted)]">
-                <div className="text-5xl mb-3">🖼️</div>
+                <div className="flex justify-center text-[var(--color-text-muted)] mb-3"><Icon name="gallery" size={48} /></div>
                 <p className="font-semibold text-lg mb-1">No hero banners created yet</p>
                 <p className="text-sm">
                   Add background banners to feature on the homepage slider
@@ -316,12 +317,12 @@ const AdminBannersPage = () => {
                         className="w-36 h-20 rounded-xl flex items-center justify-center text-2xl border"
                         style={{ background: 'var(--color-surface-2)', borderColor: 'var(--color-border)' }}
                       >
-                        🖼️
+                        <Icon name="gallery" size={16} />
                       </div>
                     )}
                     {banner.isPrimary && (
                       <span className="absolute top-1 left-1 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">
-                        ⭐ PRIMARY
+                        <><Icon name="star" size={13} /> PRIMARY</>
                       </span>
                     )}
                   </div>

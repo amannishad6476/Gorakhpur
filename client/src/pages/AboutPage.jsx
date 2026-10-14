@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { SEO_CONFIG } from '../utils/seo';
+import Icon from '../components/ui/Icon';
 
 const milestones = [
   { year: '2009', event: 'Munnalal Painter Founded', desc: 'Started with a small team of 3 painters serving Gorakhpur city.' },
@@ -16,10 +17,10 @@ const milestones = [
 ];
 
 const team = [
-  { name: 'Munnalal Ji', role: 'Founder & Master Painter', exp: '25+ years', icon: '👨🎨' },
-  { name: 'Ramesh Kumar', role: 'Senior Interior Specialist', exp: '18+ years', icon: '👨🔧' },
-  { name: 'Suresh Yadav', role: 'Texture & POP Expert', exp: '14+ years', icon: '👨🏫' },
-  { name: 'Amit Singh', role: 'Waterproofing Specialist', exp: '12+ years', icon: '👨💼' },
+  { name: 'Munnalal Ji', role: 'Founder & Master Painter', exp: '25+ years', icon: 'user' },
+  { name: 'Ramesh Kumar', role: 'Senior Interior Specialist', exp: '18+ years', icon: 'tools' },
+  { name: 'Suresh Yadav', role: 'Texture & POP Expert', exp: '14+ years', icon: 'palette' },
+  { name: 'Amit Singh', role: 'Waterproofing Specialist', exp: '12+ years', icon: 'waterproofing' },
 ];
 
 const AboutPage = () => {
@@ -55,27 +56,27 @@ const AboutPage = () => {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <SectionHeader badge="🏠 Our Story" title="15 Years of" titleHighlight="Painting Excellence" center={false} />
+              <SectionHeader badge={<><Icon name="home" size={15} /> Our Story</>} title="15 Years of" titleHighlight="Painting Excellence" center={false} />
               <div className="space-y-4 text-[var(--color-text-muted)] leading-relaxed">
                 <p>Founded in 2009 by Munnalal Ji, our painting company began with a simple mission: to provide the highest quality painting services to the people of Gorakhpur at honest, affordable prices.</p>
                 <p>Over 15 years, we have grown from a 3-person team to a professional organization of 50+ expert painters, serving homes, offices, commercial spaces, and large residential projects across Eastern Uttar Pradesh.</p>
                 <p>We combine traditional craftsmanship with modern techniques, using premium quality paints from leading brands to deliver results that not only look beautiful but stand the test of time.</p>
               </div>
               <div className="flex flex-wrap gap-4 mt-8">
-                <Link to="/free-estimate" className="btn-primary">🎨 Get Free Estimate</Link>
+                <Link to="/free-estimate" className="btn-primary"><Icon name="palette" size={16} /> Get Free Estimate</Link>
                 <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary text-[var(--color-text)]"
-                   style={{ borderColor: 'var(--color-border)' }}>📞 Call Us Now</a>
+                   style={{ borderColor: 'var(--color-border)' }}><Icon name="phone" size={16} /> Call Us Now</a>
               </div>
             </div>
             <div ref={ref} className="grid grid-cols-2 gap-4">
               {[
-                { value: '15+', label: 'Years Experience', icon: '🏆' },
-                { value: '2500+', label: 'Projects Completed', icon: '🎨' },
+                { value: '15+', label: 'Years Experience', icon: 'gem' },
+                { value: '2500+', label: 'Projects Completed', icon: 'palette' },
                 { value: '1800+', label: 'Happy Clients', icon: '😊' },
-                { value: '50+', label: 'Expert Painters', icon: '👨🎨' },
+                { value: '50+', label: 'Expert Painters', icon: 'user' },
               ].map((stat, i) => (
                 <motion.div key={stat.label} initial={{ opacity: 0, scale: 0.8 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.4, delay: i * 0.1 }} className="card p-6 text-center">
-                  <div className="text-3xl mb-2">{stat.icon}</div>
+                  <div className="flex justify-center mb-2 text-[#d4a017]"><Icon name={stat.icon} size={28} /></div>
                   <div className="text-3xl font-black text-gradient-gold mb-1">{stat.value}</div>
                   <div className="text-[var(--color-text-muted)] text-sm">{stat.label}</div>
                 </motion.div>
@@ -109,11 +110,11 @@ const AboutPage = () => {
       {/* Team */}
       <section className="section-padding" style={{ background: 'var(--color-surface)' }}>
         <div className="container-custom">
-          <SectionHeader badge="👥 Our Team" title="Meet Our" titleHighlight="Expert Painters" subtitle="Our team of experienced professionals brings skill, dedication and artistry to every project." />
+          <SectionHeader badge={<><Icon name="users" size={15} /> Our Team</>} title="Meet Our" titleHighlight="Expert Painters" subtitle="Our team of experienced professionals brings skill, dedication and artistry to every project." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member, i) => (
               <motion.div key={member.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="card p-6 text-center">
-                <div className="text-5xl mb-4">{member.icon}</div>
+                <div className="flex justify-center mb-4 text-[#d4a017]"><Icon name={member.icon} size={42} /></div>
                 <h3 className="font-bold text-[var(--color-text)] mb-1">{member.name}</h3>
                 <p className="text-[#d4a017] text-sm font-medium mb-1">{member.role}</p>
                 <p className="text-[var(--color-text-muted)] text-xs">{member.exp}</p>

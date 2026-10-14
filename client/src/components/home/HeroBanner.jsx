@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import api from '../../api/axiosInstance';
 import { SEO_CONFIG } from '../../utils/seo';
+import Icon from '../ui/Icon';
 
 const stats = [
   { value: '15+', label: 'Years Experience' },
@@ -17,7 +18,7 @@ const defaultHeroSlide = {
   _id: 'default-1',
   title: 'Transform Your Home with Colors That Last',
   subtitle: 'Professional house painting, interior & exterior painting, texture painting, waterproofing and POP design in Gorakhpur. 15+ years of excellence, 2500+ projects completed.',
-  ctaText: '🎨 Get Free Estimate',
+  ctaText: 'Get Free Estimate',
   ctaLink: '/free-estimate',
   image: '',
 };
@@ -37,6 +38,7 @@ const HeroBanner = () => {
 
   const banners = activeBanners && activeBanners.length > 0 ? activeBanners : [defaultHeroSlide];
   const isMultiple = banners.length > 1;
+  const heroContent = banners[0] || defaultHeroSlide;
 
   // Auto-play for multiple banners
   useEffect(() => {
@@ -47,18 +49,21 @@ const HeroBanner = () => {
     return () => clearInterval(interval);
   }, [isMultiple, banners.length]);
 
+  useEffect(() => {
+    if (!isMultiple) return undefined;
+    const nextBanner = banners[(currentIndex + 1) % banners.length];
+    if (nextBanner?.image) {
+      const preload = new Image();
+      preload.decoding = 'async';
+      preload.src = nextBanner.image;
+    }
+    return undefined;
+  }, [currentIndex, isMultiple, banners]);
+
   const currentBanner = banners[currentIndex] || banners[0];
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % banners.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length);
-  };
-
-  const primaryBtnText = currentBanner.buttonText || currentBanner.ctaText || '🎨 Get Free Estimate';
-  const primaryBtnLink = currentBanner.buttonLink || currentBanner.ctaLink || '/free-estimate';
+  const primaryBtnText = heroContent.buttonText || heroContent.ctaText || 'Get Free Estimate';
+  const primaryBtnLink = heroContent.buttonLink || heroContent.ctaLink || '/free-estimate';
 
   return (
     <section
@@ -80,6 +85,9 @@ const HeroBanner = () => {
               src={currentBanner.image}
               alt={currentBanner.title || "Munnalal Painter Hero Banner"}
               className="w-full h-full object-cover object-center"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.style.display = 'none';
@@ -127,30 +135,27 @@ const HeroBanner = () => {
         ))}
       </div>
 
-      <div className="container-custom relative z-10 pt-24 pb-16 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32">
-        <div className="max-w-4xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentBanner._id || currentIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
+      <div className="container-custom relative z-10 pt-[11rem] pb-16 sm:pt-[12rem] sm:pb-28 lg:pt-[13rem] lg:pb-32">
+        <div className="max-w-4xl mt-8 sm:mt-10 lg:mt-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
               <span className="badge-gold mb-4 sm:mb-6 inline-flex text-xs sm:text-sm px-3.5 py-1.5 shadow-md">
-                ✨ Gorakhpur's #1 Painting Service
+                <Icon name="sparkles" size={15} /> Gorakhpur's #1 Painting Service
               </span>
 
               <h1
                 className="text-[34px] xs:text-[38px] sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.15] sm:leading-tight mb-4 sm:mb-6"
                 style={{ fontFamily: 'Playfair Display, serif' }}
               >
-                {currentBanner.title}
+                {heroContent.title}
               </h1>
 
-              {currentBanner.subtitle && (
+              {heroContent.subtitle && (
                 <p className="text-white/85 text-sm sm:text-base md:text-lg lg:text-xl max-w-lg md:max-w-2xl mb-6 sm:mb-8 leading-relaxed font-normal">
-                  {currentBanner.subtitle}
+                  {heroContent.subtitle}
                 </p>
               )}
 
@@ -175,17 +180,16 @@ const HeroBanner = () => {
                   href={`tel:${SEO_CONFIG.phone}`}
                   className="btn-secondary w-full sm:w-auto text-center justify-center py-3 sm:py-3.5 px-6 text-sm sm:text-base"
                 >
-                  📞 Call Now
+                  <Icon name="phone" size={16} /> Call Now
                 </a>
                 <Link
                   to="/gallery"
                   className="btn-secondary w-full sm:w-auto text-center justify-center py-3 sm:py-3.5 px-6 text-sm sm:text-base"
                 >
-                  🖼️ View Gallery
+                  <Icon name="gallery" size={16} /> View Gallery
                 </Link>
               </div>
-            </motion.div>
-          </AnimatePresence>
+          </motion.div>
 
           {/* Stats Grid */}
           <motion.div
@@ -217,21 +221,6 @@ const HeroBanner = () => {
       {/* Carousel Controls (only rendered when multiple banners exist) */}
       {isMultiple && (
         <>
-          <button
-            onClick={handlePrev}
-            aria-label="Previous Banner Slide"
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-[#d4a017] transition-all backdrop-blur border border-white/20"
-          >
-            ❮
-          </button>
-          <button
-            onClick={handleNext}
-            aria-label="Next Banner Slide"
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-[#d4a017] transition-all backdrop-blur border border-white/20"
-          >
-            ❯
-          </button>
-
           {/* Pagination Indicators */}
           <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center gap-2">
             {banners.map((b, idx) => (

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import api from '../api/axiosInstance';
 import { SERVICES } from '../utils/constants';
+import Icon from '../components/ui/Icon';
 
 const ServicesPage = () => {
   const { data: apiServices } = useQuery({
@@ -67,14 +68,14 @@ const ServicesPage = () => {
                       />
                       {service.icon && (
                         <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-md bg-black/40 text-white backdrop-blur border border-white/20">
-                          {service.icon}
+                          <Icon name={service.icon} size={20} />
                         </div>
                       )}
                     </div>
                   ) : (
                     <div className="p-6 pb-0">
                       <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform" style={{ background: service.color || 'var(--color-surface-2)' }}>
-                        {service.icon || '🎨'}
+                        <Icon name={service.icon || 'palette'} size={30} />
                       </div>
                     </div>
                   )}
@@ -87,7 +88,7 @@ const ServicesPage = () => {
                       {service.shortDescription || `Professional ${service.title.toLowerCase()} services in Gorakhpur with premium quality paints and expert craftsmen.`}
                     </p>
                     <div className="flex items-center gap-2 text-[#d4a017] font-semibold text-sm group-hover:gap-3 transition-all">
-                      Learn More →
+                      Learn More <Icon name="arrowRight" size={15} />
                     </div>
                   </div>
                 </Link>

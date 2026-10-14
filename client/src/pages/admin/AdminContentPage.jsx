@@ -4,6 +4,7 @@ import api from '../../api/axiosInstance';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import toast from 'react-hot-toast';
+import Icon from '../../components/ui/Icon';
 
 const AdminContentPage = () => {
   const queryClient = useQueryClient();
@@ -80,7 +81,7 @@ const AdminContentPage = () => {
             ))}
             {(!data || data.length === 0) && (
               <div className="card p-8 text-center">
-                <div className="text-4xl mb-3">📝</div>
+                <div className="flex justify-center text-[var(--color-text-muted)] mb-3"><Icon name="blog" size={38} /></div>
                 <p className="text-[var(--color-text-muted)]">No content items found. Seed the database to add default content.</p>
               </div>
             )}

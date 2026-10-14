@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import Icon from '../ui/Icon';
 import { useState } from 'react';
 import api from '../../api/axiosInstance';
 import toast from 'react-hot-toast';
@@ -93,7 +94,7 @@ const EstimateForm = () => {
         <textarea {...register('additionalInfo')} rows={3} placeholder="Any special requirements, current condition of walls, preferred paint brands, etc." className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', color: 'var(--color-text)' }} />
       </div>
       <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-        {loading ? '⏳ Submitting...' : '🚀 Get My Free Estimate'}
+        {loading ? 'Submitting...' : <><Icon name="rocket" size={16} /> Get My Free Estimate</>}
       </button>
       <p className="text-center text-xs text-[var(--color-text-muted)]">Free estimate · No obligation · Response within 24 hours</p>
     </form>

@@ -7,6 +7,7 @@ import StarRating from '../components/ui/StarRating';
 import SectionHeader from '../components/ui/SectionHeader';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
+import Icon from '../components/ui/Icon';
 
 const ReviewsPage = () => {
   const { data, isLoading } = useQuery({ queryKey: ['reviews'], queryFn: () => api.get('/reviews').then(r => r.data.data), staleTime: 5 * 60 * 1000 });
@@ -34,10 +35,10 @@ const ReviewsPage = () => {
         <div className="container-custom">
           <div className="grid lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
-              <SectionHeader badge="⭐ What Clients Say" title="Real Reviews from" titleHighlight="Our Clients" center={false} />
+              <SectionHeader badge={<><Icon name="star" size={15} /> What Clients Say</>} title="Real Reviews from" titleHighlight="Our Clients" center={false} />
               {isLoading ? <LoadingSpinner /> : reviews.length === 0 ? (
                 <div className="text-center py-12 card p-8">
-                  <div className="text-5xl mb-3">⭐</div>
+                  <div className="flex justify-center text-[#d4a017] mb-3"><Icon name="star" size={46} /></div>
                   <p className="text-[var(--color-text-muted)]">No reviews yet. Be the first to review!</p>
                 </div>
               ) : (

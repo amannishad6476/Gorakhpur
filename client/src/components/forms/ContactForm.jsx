@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import Icon from '../ui/Icon';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import api from '../../api/axiosInstance';
@@ -96,7 +97,7 @@ const ContactForm = () => {
         disabled={loading}
         className="btn-primary w-full justify-center"
       >
-        {loading ? '⏳ Sending...' : '📤 Send Message'}
+        {loading ? 'Sending...' : <><Icon name="message" size={16} /> Send Message</>}
       </button>
     </form>
   );

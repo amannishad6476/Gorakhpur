@@ -4,6 +4,7 @@ import AdminSidebar from '../../components/admin/AdminSidebar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import Icon from '../../components/ui/Icon';
 
 const StatCard = ({ icon, label, value, link, color }) => (
   <motion.div whileHover={{ y: -4 }} className="card p-5 cursor-pointer" onClick={() => link && (window.location.href = link)}>
@@ -12,7 +13,7 @@ const StatCard = ({ icon, label, value, link, color }) => (
         <p className="text-[var(--color-text-muted)] text-sm mb-1">{label}</p>
         <p className="text-3xl font-black" style={{ color }}>{value}</p>
       </div>
-      <span className="text-3xl">{icon}</span>
+      <Icon name={icon} size={28} style={{ color }} />
     </div>
   </motion.div>
 );
@@ -41,14 +42,14 @@ const AdminDashboardPage = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard icon="🎨" label="Total Services" value={stats.services || 12} link="/admin/services" color="#d4a017" />
-          <StatCard icon="🖼️" label="Gallery Items" value={stats.gallery || 0} link="/admin/gallery" color="#2563a8" />
-          <StatCard icon="📝" label="Published Blogs" value={stats.blogs || 0} link="/admin/blogs" color="#16a34a" />
-          <StatCard icon="⭐" label="Approved Reviews" value={stats.allReviews || 0} link="/admin/reviews" color="#d4a017" />
-          <StatCard icon="⏳" label="Pending Reviews" value={stats.pendingReviews || 0} link="/admin/reviews" color="#f97316" />
-          <StatCard icon="📧" label="Total Enquiries" value={stats.enquiries || 0} link="/admin/enquiries" color="#8b5cf6" />
-          <StatCard icon="📨" label="New Enquiries" value={stats.newEnquiries || 0} link="/admin/enquiries" color="#ef4444" />
-          <StatCard icon="📋" label="Estimate Requests" value={stats.estimates || 0} link="/admin/estimates" color="#0ea5e9" />
+          <StatCard icon="palette" label="Total Services" value={stats.services || 12} link="/admin/services" color="#d4a017" />
+          <StatCard icon="gallery" label="Gallery Items" value={stats.gallery || 0} link="/admin/gallery" color="#2563a8" />
+          <StatCard icon="blog" label="Published Blogs" value={stats.blogs || 0} link="/admin/blogs" color="#16a34a" />
+          <StatCard icon="reviews" label="Approved Reviews" value={stats.allReviews || 0} link="/admin/reviews" color="#d4a017" />
+          <StatCard icon="calendar" label="Pending Reviews" value={stats.pendingReviews || 0} link="/admin/reviews" color="#f97316" />
+          <StatCard icon="mail" label="Total Enquiries" value={stats.enquiries || 0} link="/admin/enquiries" color="#8b5cf6" />
+          <StatCard icon="message" label="New Enquiries" value={stats.newEnquiries || 0} link="/admin/enquiries" color="#ef4444" />
+          <StatCard icon="clipboard" label="Estimate Requests" value={stats.estimates || 0} link="/admin/estimates" color="#0ea5e9" />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">

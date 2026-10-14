@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../api/axiosInstance';
 import StarRating from '../ui/StarRating';
 import SectionHeader from '../ui/SectionHeader';
+import Icon from '../ui/Icon';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 const TestimonialsSection = () => {
@@ -29,7 +30,7 @@ const TestimonialsSection = () => {
     <section className="section-padding" style={{ background: 'linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%)' }}>
       <div className="container-custom">
         <SectionHeader
-          badge="⭐ Customer Reviews"
+          badge={<><Icon name="star" size={15} /> Customer Reviews</>}
           title="What Our Clients"
           titleHighlight="Say About Us"
           subtitle="Don't just take our word for it. Here's what our happy customers from Gorakhpur and surrounding areas have to say."

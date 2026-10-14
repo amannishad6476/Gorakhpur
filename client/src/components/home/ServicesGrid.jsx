@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import api from '../../api/axiosInstance';
 import { SERVICES } from '../../utils/constants';
 import SectionHeader from '../ui/SectionHeader';
+import Icon from '../ui/Icon';
 
 const ServicesGrid = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -24,7 +25,7 @@ const ServicesGrid = () => {
     <section className="section-padding" style={{ background: 'var(--color-surface)' }}>
       <div className="container-custom">
         <SectionHeader
-          badge="🎨 What We Offer"
+          badge={<><Icon name="palette" size={15} /> What We Offer</>}
           title="Professional Painting"
           titleHighlight="Services"
           subtitle="From interior beautification to exterior protection, we provide comprehensive painting solutions for homes, offices, and commercial spaces across Gorakhpur."
@@ -60,7 +61,7 @@ const ServicesGrid = () => {
                       className="w-full h-36 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300"
                       style={{ background: service.color || 'var(--color-surface-2)' }}
                     >
-                      {service.icon || '🎨'}
+                      <Icon name={service.icon || 'palette'} size={38} />
                     </div>
                   )}
 
@@ -69,7 +70,7 @@ const ServicesGrid = () => {
                     <div
                       className="absolute bottom-2 left-3 w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-md backdrop-blur-md bg-black/40 text-white border border-white/20"
                     >
-                      {service.icon}
+                      <Icon name={service.icon} size={20} />
                     </div>
                   )}
                 </div>
@@ -89,7 +90,7 @@ const ServicesGrid = () => {
                   )}
 
                   <div className="mt-4 flex items-center gap-1 text-[#d4a017] text-xs font-bold group-hover:gap-2 transition-all">
-                    Learn more <span>→</span>
+                    Learn more <Icon name="arrowRight" size={14} />
                   </div>
                 </div>
               </Link>

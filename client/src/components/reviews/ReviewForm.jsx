@@ -4,6 +4,7 @@ import api from '../../api/axiosInstance';
 import toast from 'react-hot-toast';
 import StarRating from '../ui/StarRating';
 import { SERVICES } from '../../utils/constants';
+import Icon from '../ui/Icon';
 
 const ReviewForm = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const ReviewForm = () => {
   if (success) {
     return (
       <div className="text-center py-10 card p-8">
-        <div className="text-5xl mb-3">🌟</div>
+        <div className="flex justify-center text-[#d4a017] mb-3"><Icon name="sparkles" size={46} /></div>
         <h3 className="text-xl font-bold text-[var(--color-text)] mb-2">Thank You for Your Review!</h3>
         <p className="text-[var(--color-text-muted)] text-sm">Your review has been submitted and will appear after approval.</p>
       </div>
@@ -74,7 +75,7 @@ const ReviewForm = () => {
           {errors.reviewText && <p className="text-red-500 text-xs mt-1">{errors.reviewText.message}</p>}
         </div>
         <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-          {loading ? '⏳ Submitting...' : '⭐ Submit Review'}
+          {loading ? 'Submitting...' : <><Icon name="star" size={16} /> Submit Review</>}
         </button>
         <p className="text-xs text-center text-[var(--color-text-muted)]">Reviews are published after admin verification</p>
       </form>

@@ -14,6 +14,7 @@ import api from '../api/axiosInstance';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { SEO_CONFIG } from '../utils/seo';
+import Icon from '../components/ui/Icon';
 
 const defaultFAQs = [
   { _id: '1', question: 'How much does house painting cost in Gorakhpur?', answer: 'The cost ranges from ₹8-25 per square foot depending on size, paint type, and finish. Contact us for a free detailed estimate.' },
@@ -39,7 +40,7 @@ const BlogPreviewSection = () => {
   return (
     <section className="section-padding" style={{ background: 'var(--color-surface)' }}>
       <div className="container-custom">
-        <SectionHeader badge="📝 Our Blog" title="Latest Painting" titleHighlight="Tips & Guides" subtitle="Expert tips, guides and insights on house painting, interior design and maintenance from our professional painters." />
+        <SectionHeader badge={<><Icon name="blog" size={15} /> Our Blog</>} title="Latest Painting" titleHighlight="Tips & Guides" subtitle="Expert tips, guides and insights on house painting, interior design and maintenance from our professional painters." />
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogs.map((blog, i) => (
             <motion.div key={blog._id} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: i * 0.1 }}>
@@ -66,14 +67,14 @@ const CTASection = () => (
   <section className="section-padding" style={{ background: 'linear-gradient(135deg, #071020 0%, #1e3a5f 100%)' }}>
     <div className="container-custom text-center">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <span className="badge-gold mb-6 inline-flex">📞 Ready to Transform Your Space?</span>
+        <span className="badge-gold mb-6 inline-flex"><Icon name="phone" size={15} /> Ready to Transform Your Space?</span>
         <h2 className="text-3xl md:text-5xl font-black text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
           Get Your <span className="text-gradient-gold">Free Estimate</span> Today
         </h2>
         <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">Professional painters at your doorstep. Free on-site estimate within 24 hours. No obligation, no hidden charges.</p>
         <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 max-w-md mx-auto sm:max-w-none">
-          <Link to="/free-estimate" className="btn-primary w-full sm:w-auto justify-center text-sm sm:text-base">🎨 Get Free Estimate</Link>
-          <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary w-full sm:w-auto justify-center text-sm sm:text-base">📞 Call {SEO_CONFIG.phone}</a>
+          <Link to="/free-estimate" className="btn-primary w-full sm:w-auto justify-center text-sm sm:text-base"><Icon name="palette" size={16} /> Get Free Estimate</Link>
+            <a href={`tel:${SEO_CONFIG.phone}`} className="btn-secondary w-full sm:w-auto justify-center text-sm sm:text-base"><Icon name="phone" size={16} /> Call {SEO_CONFIG.phone}</a>
         </div>
       </motion.div>
     </div>
@@ -85,7 +86,7 @@ const FAQSection = () => {
   return (
     <section className="section-padding" style={{ background: 'var(--color-surface-2)' }}>
       <div className="container-custom max-w-4xl">
-        <SectionHeader badge="❓ FAQ" title="Frequently Asked" titleHighlight="Questions" subtitle="Got questions? We have answers to the most common painting queries from our Gorakhpur clients." />
+        <SectionHeader badge={<><Icon name="faq" size={15} /> FAQ</>} title="Frequently Asked" titleHighlight="Questions" subtitle="Got questions? We have answers to the most common painting queries from our Gorakhpur clients." />
         <FAQAccordion faqs={data || defaultFAQs} />
         <div className="text-center mt-8">
           <Link to="/faq" className="btn-primary">View All FAQs</Link>

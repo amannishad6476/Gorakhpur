@@ -6,6 +6,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ImageUploader from '../../components/admin/ImageUploader';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const emptyForm = {
   title: '',
@@ -13,7 +14,7 @@ const emptyForm = {
   shortDescription: '',
   description: '',
   features: '',
-  icon: '🎨',
+  icon: 'palette',
   color: '#e8f4fd',
   image: '',
   imagePublicId: '',
@@ -106,7 +107,7 @@ const ServiceForm = ({ initial, onSave, onCancel, loading }) => {
             style={{ background: 'var(--color-surface-2)', borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
             value={form.icon}
             onChange={(e) => set('icon', e.target.value)}
-            placeholder="🎨"
+            placeholder="palette"
           />
         </div>
 
@@ -395,14 +396,14 @@ const AdminServicesPage = () => {
                         className="w-full h-24 rounded-xl flex items-center justify-center text-4xl border"
                         style={{ background: service.color || 'var(--color-surface-2)', borderColor: 'var(--color-border)' }}
                       >
-                        {service.icon || '🎨'}
+                        <Icon name={service.icon || 'palette'} size={18} />
                       </div>
                     )}
                   </div>
 
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">{service.icon || '🎨'}</span>
+                      <Icon name={service.icon || 'palette'} size={21} />
                       <h3 className="font-bold text-[var(--color-text)] text-base">
                         {service.title}
                       </h3>

@@ -6,6 +6,7 @@ import FAQAccordion from '../components/faq/FAQAccordion';
 import SectionHeader from '../components/ui/SectionHeader';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import Icon from '../components/ui/Icon';
 
 const defaultFAQs = [
   { _id: '1', question: 'How much does house painting cost in Gorakhpur?', answer: 'The cost ranges from ₹8-25 per sq ft depending on size, paint type, and finish. Contact us for a free estimate.' },
@@ -52,7 +53,7 @@ const FAQPage = () => {
             <h3 className="text-2xl font-bold text-[var(--color-text)] mb-3">Still Have Questions?</h3>
             <p className="text-[var(--color-text-muted)] mb-6">We're here to help! Contact us directly and we'll answer any questions.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/contact" className="btn-primary">📞 Contact Us</Link>
+              <Link to="/contact" className="btn-primary"><Icon name="phone" size={16} /> Contact Us</Link>
               <Link to="/free-estimate" className="btn-secondary text-[var(--color-text)]" style={{ borderColor: 'var(--color-border)' }}>Get Free Estimate</Link>
             </div>
           </div>

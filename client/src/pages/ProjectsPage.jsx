@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import Icon from '../components/ui/Icon';
 
 const statusColors = {
   completed: 'bg-green-100 text-green-700',
@@ -93,7 +94,7 @@ const ProjectsPage = () => {
                     <h2 className="font-bold text-[var(--color-text)] mb-1 group-hover:text-[#d4a017] transition-colors">{project.title}</h2>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--color-text-muted)] mb-3">
                       {project.client && <span>👤 {project.client}</span>}
-                      {project.location && <span>📍 {project.location}</span>}
+                      {project.location && <span className="flex items-center gap-1"><Icon name="location" size={14} /> {project.location}</span>}
                       {project.area && <span>📐 {project.area.toLocaleString()} sq ft</span>}
                       {project.completedDate && <span>📅 {new Date(project.completedDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</span>}
                     </div>

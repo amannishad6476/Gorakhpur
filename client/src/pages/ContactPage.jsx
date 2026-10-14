@@ -3,6 +3,7 @@ import Breadcrumb from '../components/layout/Breadcrumb';
 import ContactForm from '../components/forms/ContactForm';
 import { SEO_CONFIG } from '../utils/seo';
 import MapSection from '../components/home/MapSection';
+import Icon from '../components/ui/Icon';
 
 const ContactPage = () => (
   <>
@@ -30,14 +31,14 @@ const ContactPage = () => (
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[var(--color-text)] mb-6">Contact Info</h2>
             {[
-              { icon: '📍', title: 'Our Address', info: SEO_CONFIG.address },
-              { icon: '📞', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
-              { icon: '💬', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
-              { icon: '✉️', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
-              { icon: '⏰', title: 'Working Hours', info: 'Mon-Sat: 8am-8pm\nSunday: 9am-6pm' },
+              { icon: 'location', title: 'Our Address', info: SEO_CONFIG.address },
+              { icon: 'phone', title: 'Phone', info: SEO_CONFIG.phone, href: `tel:${SEO_CONFIG.phone}` },
+              { icon: 'message', title: 'WhatsApp', info: SEO_CONFIG.whatsapp, href: `https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}` },
+              { icon: 'mail', title: 'Email', info: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}` },
+              { icon: 'calendar', title: 'Working Hours', info: 'Mon-Sat: 8am-8pm\nSunday: 9am-6pm' },
             ].map(item => (
               <div key={item.title} className="card p-4 flex items-start gap-3">
-                <span className="text-2xl">{item.icon}</span>
+                <Icon name={item.icon} size={22} className="text-[#d4a017]" />
                 <div>
                   <p className="font-semibold text-[var(--color-text)] text-sm mb-0.5">{item.title}</p>
                   {item.href ? (

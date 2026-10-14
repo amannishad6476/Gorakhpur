@@ -1,16 +1,16 @@
 export const SERVICES = [
-  { title: 'House Painting', slug: 'house-painting', icon: '🏠', color: '#e8f4fd' },
-  { title: 'Interior Painting', slug: 'interior-painting', icon: '🎨', color: '#fef3e2' },
-  { title: 'Exterior Painting', slug: 'exterior-painting', icon: '🏗️', color: '#e8fdf0' },
-  { title: 'Texture Painting', slug: 'texture-painting', icon: '✨', color: '#f3e8fd' },
-  { title: 'Wall Putty', slug: 'wall-putty', icon: '🔧', color: '#fde8e8' },
-  { title: 'Waterproofing', slug: 'waterproofing', icon: '💧', color: '#e8f8fd' },
-  { title: 'POP Design', slug: 'pop-design', icon: '🏛️', color: '#fdf8e8' },
-  { title: 'Wood Polish', slug: 'wood-polish', icon: '🪵', color: '#fdf0e8' },
-  { title: 'Metal Painting', slug: 'metal-painting', icon: '⚙️', color: '#efefef' },
-  { title: 'Commercial Painting', slug: 'commercial-painting', icon: '🏢', color: '#e8eafd' },
-  { title: 'Apartment Painting', slug: 'apartment-painting', icon: '🏙️', color: '#fde8f8' },
-  { title: 'Office Painting', slug: 'office-painting', icon: '🏬', color: '#e8fdfa' },
+  { title: 'House Painting', slug: 'house-painting', icon: 'home', color: '#e8f4fd' },
+  { title: 'Interior Painting', slug: 'interior-painting', icon: 'palette', color: '#fef3e2' },
+  { title: 'Exterior Painting', slug: 'exterior-painting', icon: 'exterior', color: '#e8fdf0' },
+  { title: 'Texture Painting', slug: 'texture-painting', icon: 'sparkles', color: '#f3e8fd' },
+  { title: 'Wall Putty', slug: 'wall-putty', icon: 'tools', color: '#fde8e8' },
+  { title: 'Waterproofing', slug: 'waterproofing', icon: 'waterproofing', color: '#e8f8fd' },
+  { title: 'POP Design', slug: 'pop-design', icon: 'building', color: '#fdf8e8' },
+  { title: 'Wood Polish', slug: 'wood-polish', icon: 'trees', color: '#fdf0e8' },
+  { title: 'Metal Painting', slug: 'metal-painting', icon: 'tools', color: '#efefef' },
+  { title: 'Commercial Painting', slug: 'commercial-painting', icon: 'building', color: '#e8eafd' },
+  { title: 'Apartment Painting', slug: 'apartment-painting', icon: 'apartment', color: '#fde8f8' },
+  { title: 'Office Painting', slug: 'office-painting', icon: 'building', color: '#e8fdfa' },
 ];
 
 export const SERVICE_AREAS = [

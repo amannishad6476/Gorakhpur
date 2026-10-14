@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import api from '../../api/axiosInstance';
 import toast from 'react-hot-toast';
+import Icon from '../ui/Icon';
 
 const ImageUploader = ({ value, publicId, onChange, label = 'Image', folder = 'munnalal-painter' }) => {
   const [uploading, setUploading] = useState(false);
@@ -142,11 +143,11 @@ const ImageUploader = ({ value, publicId, onChange, label = 'Image', folder = 'm
         >
           {uploading ? (
             <div className="py-2 text-sm text-[#d4a017] font-semibold animate-pulse flex items-center justify-center gap-2">
-              <span className="animate-spin text-lg">⏳</span> Uploading Image...
+              <Icon name="loader" size={18} className="animate-spin" /> Uploading Image...
             </div>
           ) : (
             <div className="space-y-1">
-              <div className="text-3xl mb-1">🖼️</div>
+              <div className="flex justify-center mb-1 text-[var(--color-text-muted)]"><Icon name="gallery" size={30} /></div>
               <p className="text-xs font-semibold text-[var(--color-text)]">
                 Click to upload or drag & drop image
               </p>

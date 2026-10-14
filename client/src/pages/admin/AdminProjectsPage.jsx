@@ -5,6 +5,7 @@ import AdminSidebar from '../../components/admin/AdminSidebar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const SERVICE_TYPES = ['Interior Painting', 'Exterior Painting', 'Texture Painting', 'Waterproofing', 'POP Design', 'Wood Polish', 'Commercial Painting', 'Apartment Painting', 'House Painting', 'Other'];
 const STATUSES = ['completed', 'ongoing', 'upcoming'];
@@ -157,7 +158,7 @@ const AdminProjectsPage = () => {
           <>
             {(!data || data.length === 0) && (
               <div className="card p-10 text-center text-[var(--color-text-muted)]">
-                <div className="text-5xl mb-3">🏗️</div>
+                <div className="flex justify-center text-[var(--color-text-muted)] mb-3"><Icon name="projects" size={48} /></div>
                 <p className="font-semibold text-lg mb-1">No projects yet</p>
                 <p className="text-sm">Add your first project to showcase your work</p>
               </div>
@@ -175,7 +176,7 @@ const AdminProjectsPage = () => {
                       <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 font-medium ${statusColors[project.status] || ''}`}>{project.status}</span>
                     </div>
                     {project.client && <p className="text-xs text-[var(--color-text-muted)] mb-0.5">👤 {project.client}</p>}
-                    {project.location && <p className="text-xs text-[var(--color-text-muted)] mb-1">📍 {project.location}</p>}
+                    {project.location && <p className="flex items-center gap-1 text-xs text-[var(--color-text-muted)] mb-1"><Icon name="location" size={13} /> {project.location}</p>}
                     <p className="text-xs text-[#d4a017] font-semibold mb-3">{project.serviceType}{project.area ? ` · ${project.area} sq ft` : ''}</p>
                     <div className="flex gap-2">
                       <button onClick={() => { setEditing(project); setShowForm(false); }} className="flex-1 text-xs py-1.5 rounded-lg bg-yellow-100 text-yellow-700 hover:bg-yellow-200 transition-colors">Edit</button>

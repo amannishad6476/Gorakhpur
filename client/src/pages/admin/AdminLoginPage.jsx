@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import api from '../../api/axiosInstance';
+import Icon from '../../components/ui/Icon';
 
 const strongPasswordValidation = {
   required: 'New password is required',
@@ -93,7 +94,7 @@ const AdminLoginPage = () => {
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: 'rgba(255,255,255,0.1)', border: `1px solid ${errors.password ? '#ef4444' : 'rgba(255,255,255,0.2)'}`, color: '#fff' }} />
               {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
             </div>
-            <button type="submit" disabled={loading} className="btn-primary w-full justify-center mt-2">{loading ? '⏳ Signing in...' : '🔐 Sign In'}</button>
+            <button type="submit" disabled={loading} className="btn-primary w-full justify-center mt-2">{loading ? 'Signing in...' : <><Icon name="admin" size={16} /> Sign In</>}</button>
             <button type="button" onClick={() => setForgotMode(true)} className="w-full text-center text-white/60 text-sm hover:text-[#d4a017] transition-colors">Forgot Password?</button>
           </form>
         )}

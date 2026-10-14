@@ -5,6 +5,7 @@ import AdminSidebar from '../../components/admin/AdminSidebar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const statusColors = {
   new: 'bg-red-100 text-red-600',
@@ -55,10 +56,10 @@ const AdminEstimatesPage = () => {
                     </div>
                     <p className="text-[var(--color-text-muted)] text-sm">{e.phone} {e.email && `· ${e.email}`}</p>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-[var(--color-text-muted)]">
-                      {e.serviceType && <span>🎨 {e.serviceType}</span>}
-                      {e.propertyType && <span>🏠 {e.propertyType}</span>}
+                      {e.serviceType && <span className="flex items-center gap-1"><Icon name="palette" size={13} /> {e.serviceType}</span>}
+                      {e.propertyType && <span className="flex items-center gap-1"><Icon name="home" size={13} /> {e.propertyType}</span>}
                       {e.area && <span>📐 {e.area} sq ft</span>}
-                      {e.city && <span>📍 {e.city}</span>}
+                      {e.city && <span className="flex items-center gap-1"><Icon name="location" size={13} /> {e.city}</span>}
                       {e.preferredDate && <span>📅 {new Date(e.preferredDate).toLocaleDateString('en-IN')}</span>}
                     </div>
                     {e.notes && <p className="mt-2 text-sm text-[var(--color-text-muted)] italic">"{e.notes}"</p>}

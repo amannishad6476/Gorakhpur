@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
 import DOMPurify from 'dompurify';
 import { SEO_CONFIG } from '../utils/seo';
+import Icon from '../components/ui/Icon';
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -23,7 +24,7 @@ const BlogPostPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center text-center px-4">
         <div>
-          <div className="text-6xl mb-4">📝</div>
+          <div className="flex justify-center text-[#d4a017] mb-4"><Icon name="blog" size={58} /></div>
           <h1 className="text-3xl font-black text-[var(--color-text)] mb-4">Article Not Found</h1>
           <p className="text-[var(--color-text-muted)] mb-6">The article you're looking for doesn't exist or has been removed.</p>
           <Link to="/blog" className="btn-primary">← Back to Blog</Link>
@@ -127,13 +128,13 @@ const BlogPostPage = () => {
               <div className="card p-6">
                 <h3 className="font-bold text-[var(--color-text)] mb-4">Quick Contact</h3>
                 <div className="space-y-3">
-                  <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center text-sm">📞 Call Now</a>
+                  <a href={`tel:${SEO_CONFIG.phone}`} className="btn-primary w-full justify-center text-sm"><Icon name="phone" size={15} /> Call Now</a>
                   <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm"
                     style={{ background: '#25D366', color: '#fff' }}>
-                    💬 WhatsApp
+                    <Icon name="message" size={15} /> WhatsApp
                   </a>
-                  <Link to="/free-estimate" className="btn-secondary w-full justify-center text-sm" style={{ color: 'var(--color-text)', borderColor: 'var(--color-border)' }}>📋 Free Estimate</Link>
+                  <Link to="/free-estimate" className="btn-secondary w-full justify-center text-sm" style={{ color: 'var(--color-text)', borderColor: 'var(--color-border)' }}><Icon name="clipboard" size={15} /> Free Estimate</Link>
                 </div>
               </div>
 
@@ -152,10 +153,10 @@ const BlogPostPage = () => {
               <div className="card p-6">
                 <h3 className="font-bold text-[var(--color-text)] mb-4">Explore More</h3>
                 <div className="space-y-2">
-                  <Link to="/blog" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors">📝 All Blog Posts</Link>
-                  <Link to="/services" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors">🎨 Our Services</Link>
-                  <Link to="/gallery" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors">🖼️ Gallery</Link>
-                  <Link to="/reviews" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors">⭐ Reviews</Link>
+                  <Link to="/blog" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors"><Icon name="blog" size={15} /> All Blog Posts</Link>
+                  <Link to="/services" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors"><Icon name="palette" size={15} /> Our Services</Link>
+                  <Link to="/gallery" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors"><Icon name="gallery" size={15} /> Gallery</Link>
+                  <Link to="/reviews" className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[#d4a017] transition-colors"><Icon name="star" size={15} /> Reviews</Link>
                 </div>
               </div>
             </aside>

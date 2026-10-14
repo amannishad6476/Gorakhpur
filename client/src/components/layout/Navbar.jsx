@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { SERVICES } from '../../utils/constants';
+import Icon from '../ui/Icon';
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
@@ -41,10 +42,10 @@ const Navbar = () => {
         } : {}}
       >
         <div className="container-custom">
-          <nav className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
+          <nav className="flex items-center justify-between h-16 sm:h-18 lg:h-21">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
                 M
               </div>
               <div className="leading-none">
@@ -113,7 +114,7 @@ const Navbar = () => {
                       transition={{ duration: 0.2 }}
                       onMouseEnter={() => setServicesOpen(true)}
                       onMouseLeave={() => setServicesOpen(false)}
-                      className="absolute top-full left-0 mt-2 w-64 rounded-2xl shadow-xl overflow-hidden z-50"
+                      className="absolute top-full left-0 mt-3 w-64 rounded-lg shadow-xl overflow-hidden z-50"
                       style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
                     >
                       <div className="p-2">
@@ -121,7 +122,7 @@ const Navbar = () => {
                           to="/services"
                           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-[#d4a017] hover:bg-[rgba(212,160,23,0.1)] transition-colors"
                         >
-                          🎯 All Services
+                          <Icon name="palette" size={15} /> All Services
                         </Link>
                         <div className="my-1 border-t border-[var(--color-border)]" />
                         {SERVICES.map((s) => (
@@ -130,7 +131,7 @@ const Navbar = () => {
                             to={`/services/${s.slug}`}
                             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
                           >
-                            <span>{s.icon}</span>
+                            <Icon name={s.icon} size={16} />
                             {s.title}
                           </Link>
                         ))}
@@ -176,7 +177,7 @@ const Navbar = () => {
                 }`}
                 aria-label="Toggle dark mode"
               >
-                {isDark ? '☀️' : '🌙'}
+                <Icon name={isDark ? 'sun' : 'moon'} size={16} />
               </button>
 
               {/* Admin Panel Button */}
@@ -189,13 +190,13 @@ const Navbar = () => {
                 }`}
                 title="Go to Admin Panel"
               >
-                🔒 Admin
+                <Icon name="admin" size={14} /> Admin
               </Link>
 
               {/* Free Estimate CTA Button */}
               <Link
                 to="/free-estimate"
-                className="btn-primary text-xs sm:text-sm py-1.5 px-3 sm:py-2.5 sm:px-5 whitespace-nowrap shadow-sm"
+                className="btn-primary text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap shadow-sm"
               >
                 <span className="hidden xs:inline">Free </span>Estimate
               </Link>
@@ -242,25 +243,26 @@ const Navbar = () => {
             <div className="h-full overflow-y-auto p-6">
               <div className="space-y-1">
                 {[
-                  { label: '🏠 Home', href: '/' },
-                  { label: '👥 About Us', href: '/about' },
-                  { label: '🎨 All Services', href: '/services' },
-                  ...SERVICES.map((s) => ({ label: `  ${s.icon} ${s.title}`, href: `/services/${s.slug}` })),
-                  { label: '🖼️ Gallery', href: '/gallery' },
-                  { label: '🏗️ Projects', href: '/projects' },
-                  { label: '📝 Blog', href: '/blog' },
-                  { label: '⭐ Reviews', href: '/reviews' },
-                  { label: '❓ FAQs', href: '/faq' },
-                  { label: '📞 Contact', href: '/contact' },
-                  { label: '📍 Service Areas', href: '/service-areas' },
-                  { label: '🔒 Admin Panel', href: '/admin' },
+                  { label: 'Home', icon: 'home', href: '/' },
+                  { label: 'About Us', icon: 'about', href: '/about' },
+                  { label: 'All Services', icon: 'palette', href: '/services' },
+                  ...SERVICES.map((s) => ({ label: s.title, icon: s.icon, href: `/services/${s.slug}` })),
+                  { label: 'Gallery', icon: 'gallery', href: '/gallery' },
+                  { label: 'Projects', icon: 'projects', href: '/projects' },
+                  { label: 'Blog', icon: 'blog', href: '/blog' },
+                  { label: 'Reviews', icon: 'reviews', href: '/reviews' },
+                  { label: 'FAQs', icon: 'faq', href: '/faq' },
+                  { label: 'Contact', icon: 'contact', href: '/contact' },
+                  { label: 'Service Areas', icon: 'location', href: '/service-areas' },
+                  { label: 'Admin Panel', icon: 'admin', href: '/admin' },
                 ].map((link) => (
                   <Link
                     key={link.href}
                     to={link.href}
                     className="flex items-center px-4 py-3 rounded-xl text-[var(--color-text)] hover:bg-[var(--color-surface-2)] hover:text-[#d4a017] transition-all text-sm"
                   >
-                    {link.label}
+                    <Icon name={link.icon || 'palette'} size={16} />
+                    {link.label.trim()}
                   </Link>
                 ))}
               </div>

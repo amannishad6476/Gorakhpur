@@ -8,16 +8,17 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { motion } from 'framer-motion';
+import Icon from '../components/ui/Icon';
 
 const categories = [
   { value: 'all', label: 'All Work' },
-  { value: 'interior', label: '🎨 Interior' },
-  { value: 'exterior', label: '🏗️ Exterior' },
-  { value: 'texture', label: '✨ Texture' },
-  { value: 'waterproofing', label: '💧 Waterproofing' },
-  { value: 'pop', label: '🏛️ POP Design' },
-  { value: 'commercial', label: '🏢 Commercial' },
-  { value: 'before-after', label: '↔️ Before & After' },
+  { value: 'interior', label: 'Interior', icon: 'palette' },
+  { value: 'exterior', label: 'Exterior', icon: 'exterior' },
+  { value: 'texture', label: 'Texture', icon: 'sparkles' },
+  { value: 'waterproofing', label: 'Waterproofing', icon: 'waterproofing' },
+  { value: 'pop', label: 'POP Design', icon: 'building' },
+  { value: 'commercial', label: 'Commercial', icon: 'building' },
+  { value: 'before-after', label: 'Before & After', icon: 'arrowRight' },
 ];
 
 const placeholderImages = [
@@ -66,7 +67,7 @@ const GalleryPage = () => {
               <button key={cat.value} onClick={() => setActiveCategory(cat.value)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === cat.value ? 'gradient-gold text-[#1a1a2e] shadow-md' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text)]'}`}
                 style={activeCategory !== cat.value ? { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' } : {}}>
-                {cat.label}
+                {cat.icon && <Icon name={cat.icon} size={15} />}{cat.label}
               </button>
             ))}
           </div>

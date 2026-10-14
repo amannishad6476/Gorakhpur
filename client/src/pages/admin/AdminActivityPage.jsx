@@ -3,6 +3,7 @@ import api from '../../api/axiosInstance';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { motion } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const actionColors = {
   create: 'bg-green-100 text-green-600',
@@ -33,7 +34,7 @@ const AdminActivityPage = () => {
           <div className="space-y-3">
             {data?.length === 0 && (
               <div className="card p-8 text-center">
-                <div className="text-4xl mb-3">📋</div>
+                <div className="flex justify-center text-[var(--color-text-muted)] mb-3"><Icon name="clipboard" size={38} /></div>
                 <p className="text-[var(--color-text-muted)]">No activity logged yet.</p>
               </div>
             )}

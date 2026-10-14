@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { SERVICES, SERVICE_AREAS } from '../../utils/constants';
 import { SEO_CONFIG } from '../../utils/seo';
+import Icon from '../ui/Icon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,8 +12,8 @@ const Footer = () => {
       {/* Decorative top border */}
       <div className="h-1 w-full gradient-gold" />
 
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="container-custom mt-4 mb-5 pt-14 pb-16 sm:mt-6 sm:mb-7 sm:pt-16 sm:pb-20 lg:mt-8 lg:mb-9 lg:pt-20 lg:pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 my-8 sm:my-10 lg:my-12">
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-3 mb-5">
@@ -29,16 +30,16 @@ const Footer = () => {
             </p>
             <div className="space-y-2">
               <a href={`tel:${SEO_CONFIG.phone}`} className="flex items-center gap-2 text-white/70 hover:text-[#d4a017] transition-colors text-sm">
-                📞 {SEO_CONFIG.phone}
+                <Icon name="phone" size={15} /> {SEO_CONFIG.phone}
               </a>
               <a href={`https://wa.me/${SEO_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/70 hover:text-[#25D366] transition-colors text-sm">
-                💬 WhatsApp Us
+                <Icon name="message" size={15} /> WhatsApp Us
               </a>
               <a href={`mailto:${SEO_CONFIG.email}`} className="flex items-center gap-2 text-white/70 hover:text-[#d4a017] transition-colors text-sm">
-                ✉️ {SEO_CONFIG.email}
+                <Icon name="mail" size={15} /> {SEO_CONFIG.email}
               </a>
               <p className="flex items-start gap-2 text-white/70 text-sm">
-                📍 {SEO_CONFIG.address}
+                <Icon name="location" size={15} /> {SEO_CONFIG.address}
               </p>
             </div>
           </div>
@@ -56,7 +57,7 @@ const Footer = () => {
                     to={`/services/${s.slug}`}
                     className="flex items-center gap-2 text-white/60 hover:text-[#d4a017] transition-colors text-sm"
                   >
-                    <span className="text-[#d4a017] text-xs">›</span>
+                    <Icon name="chevronRight" size={13} className="text-[#d4a017]" />
                     {s.title}
                   </Link>
                 </li>
@@ -83,14 +84,14 @@ const Footer = () => {
                 { label: 'Service Areas', href: '/service-areas' },
                 { label: 'Privacy Policy', href: '/privacy-policy' },
                 { label: 'Terms & Conditions', href: '/terms-conditions' },
-                { label: 'Admin Login 🔒', href: '/admin' },
+                { label: 'Admin Login', href: '/admin' },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}
                     className="flex items-center gap-2 text-white/60 hover:text-[#d4a017] transition-colors text-sm"
                   >
-                    <span className="text-[#d4a017] text-xs">›</span>
+                    <Icon name="chevronRight" size={13} className="text-[#d4a017]" />
                     {link.label}
                   </Link>
                 </li>
@@ -114,7 +115,7 @@ const Footer = () => {
             </div>
 
             <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(212,160,23,0.1)', border: '1px solid rgba(212,160,23,0.2)' }}>
-              <p className="text-[#d4a017] font-semibold text-sm mb-2">🚀 Get Free Estimate</p>
+              <p className="text-[#d4a017] font-semibold text-sm mb-2 flex items-center gap-2"><Icon name="rocket" size={15} /> Get Free Estimate</p>
               <p className="text-white/60 text-xs mb-3">Professional painters available within 24 hours</p>
               <Link to="/free-estimate" className="btn-primary text-xs py-2 px-4 w-full justify-center">
                 Request Now
@@ -125,13 +126,13 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="container-custom py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
+      <div className="border-t border-white/10 mt-8 mb-4 sm:mt-10 sm:mb-6" style={{ paddingTop: '15px' }}>
+        <div className="container-custom pt-[15px] pb-10 sm:pt-[15px] sm:pb-12 flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 text-sm text-white/50">
           <p>© {currentYear} Munnalal Painter. All rights reserved.</p>
           <p className="text-center">
             Painter in Gorakhpur | House Painting | Interior Painting | Exterior Painting | Texture Painting
           </p>
-          <p>Made with ❤️ in Gorakhpur, UP</p>
+          <p className="flex items-center gap-1">Made with <Icon name="gem" size={14} /> in Gorakhpur, UP</p>
         </div>
       </div>
     </footer>

@@ -4,6 +4,7 @@ import api from '../../api/axiosInstance';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import Icon from '../../components/ui/Icon';
 
 const strongPasswordValidation = {
   required: 'New password is required',
@@ -111,7 +112,7 @@ const AdminChangePasswordPage = () => {
 
               <div className="pt-2">
                 <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-                  {loading ? 'Changing Password...' : '🔒 Change Password'}
+                  {loading ? 'Changing Password...' : <><Icon name="admin" size={16} /> Change Password</>}
                 </button>
               </div>
             </form>

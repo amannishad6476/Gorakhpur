@@ -1,6 +1,7 @@
 import SEOHead from '../components/layout/SEOHead';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import EstimateForm from '../components/forms/EstimateForm';
+import Icon from '../components/ui/Icon';
 
 const FreeEstimatePage = () => (
   <>
@@ -22,9 +23,9 @@ const FreeEstimatePage = () => (
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
           <div className="grid grid-cols-3 gap-4 mb-8">
-            {[{ icon: '📞', text: 'Call within 24 hours' }, { icon: '✔️', text: 'Free site visit' }, { icon: '📋', text: 'Detailed written quote' }].map(item => (
+            {[{ icon: 'phone', text: 'Call within 24 hours' }, { icon: 'check', text: 'Free site visit' }, { icon: 'clipboard', text: 'Detailed written quote' }].map(item => (
               <div key={item.text} className="text-center card p-4">
-                <div className="text-2xl mb-1">{item.icon}</div>
+                <div className="flex justify-center text-[#d4a017] mb-1"><Icon name={item.icon} size={22} /></div>
                 <p className="text-[var(--color-text)] text-xs font-medium">{item.text}</p>
               </div>
             ))}

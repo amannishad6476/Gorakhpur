@@ -2,22 +2,23 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import Icon from '../ui/Icon';
 
 const navItems = [
-  { icon: '📊', label: 'Dashboard', href: '/admin/dashboard' },
-  { icon: '🎨', label: 'Services', href: '/admin/services' },
-  { icon: '🖼️', label: 'Gallery', href: '/admin/gallery' },
-  { icon: '🏗️', label: 'Projects', href: '/admin/projects' },
-  { icon: '📝', label: 'Blog Posts', href: '/admin/blogs' },
-  { icon: '⭐', label: 'Reviews', href: '/admin/reviews' },
-  { icon: '💬', label: 'Testimonials', href: '/admin/testimonials' },
-  { icon: '❓', label: 'FAQs', href: '/admin/faqs' },
-  { icon: '📧', label: 'Enquiries', href: '/admin/enquiries' },
-  { icon: '📋', label: 'Estimates', href: '/admin/estimates' },
-  { icon: '🇮🇳', label: 'Banners', href: '/admin/banners' },
-  { icon: '✏️', label: 'Site Content', href: '/admin/content' },
-  { icon: '📄', label: 'Activity Logs', href: '/admin/activity' },
-  { icon: '🔒', label: 'Change Password', href: '/admin/change-password' },
+  { icon: 'dashboard', label: 'Dashboard', href: '/admin/dashboard' },
+  { icon: 'palette', label: 'Services', href: '/admin/services' },
+  { icon: 'gallery', label: 'Gallery', href: '/admin/gallery' },
+  { icon: 'projects', label: 'Projects', href: '/admin/projects' },
+  { icon: 'blog', label: 'Blog Posts', href: '/admin/blogs' },
+  { icon: 'reviews', label: 'Reviews', href: '/admin/reviews' },
+  { icon: 'message', label: 'Testimonials', href: '/admin/testimonials' },
+  { icon: 'faq', label: 'FAQs', href: '/admin/faqs' },
+  { icon: 'mail', label: 'Enquiries', href: '/admin/enquiries' },
+  { icon: 'clipboard', label: 'Estimates', href: '/admin/estimates' },
+  { icon: 'building', label: 'Banners', href: '/admin/banners' },
+  { icon: 'edit', label: 'Site Content', href: '/admin/content' },
+  { icon: 'file', label: 'Activity Logs', href: '/admin/activity' },
+  { icon: 'admin', label: 'Change Password', href: '/admin/change-password' },
 ];
 
 const AdminSidebar = () => {
@@ -68,7 +69,7 @@ const AdminSidebar = () => {
               }`
             }
           >
-            <span className="text-base">{item.icon}</span>
+            <Icon name={item.icon} size={17} />
             {item.label}
           </NavLink>
         ))}
@@ -77,10 +78,10 @@ const AdminSidebar = () => {
       {/* Logout */}
       <div className="p-3 border-t border-white/5">
         <button onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/60 hover:text-red-400 hover:bg-red-400/10 transition-all w-full">
-          🚪 Logout
+          <Icon name="logout" size={17} /> Logout
         </button>
         <Link to="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mt-1">
-          🏠 View Website
+          <Icon name="home" size={17} /> View Website
         </Link>
       </div>
     </aside>
