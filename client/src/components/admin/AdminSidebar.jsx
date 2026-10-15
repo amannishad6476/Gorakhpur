@@ -34,8 +34,12 @@ const AdminSidebar = () => {
     <aside className="fixed left-0 top-0 bottom-0 w-64 z-40 flex flex-col" style={{ background: 'linear-gradient(180deg, #071020 0%, #0d1f3c 100%)', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
       {/* Logo */}
       <div className="p-5 border-b border-white/5">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-xl">M</div>
+        <Link to="/" className="flex items-center gap-3 group">
+          <img
+            src="/assets/logo.png"
+            alt="Munnalal Painter Logo"
+            className="w-10 h-10 rounded-xl object-contain shadow-md flex-shrink-0 group-hover:scale-105 transition-transform"
+          />
           <div>
             <div className="text-white font-black text-sm">Munnalal</div>
             <div className="text-[#d4a017] text-xs font-semibold tracking-widest uppercase">Admin</div>

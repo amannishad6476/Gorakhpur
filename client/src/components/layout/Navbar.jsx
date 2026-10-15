@@ -44,9 +44,11 @@ const Navbar = () => {
           <nav className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
-                M
-              </div>
+              <img
+                src="/assets/logo.png"
+                alt="Munnalal Painter Logo"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain shadow-md group-hover:scale-105 transition-transform flex-shrink-0"
+              />
               <div className="leading-none">
                 <div className={`font-black text-sm sm:text-base tracking-tight ${isTransparent ? 'text-white' : 'text-[var(--color-text)]'}`}>
                   Munnalal

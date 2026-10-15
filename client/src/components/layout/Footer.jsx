@@ -15,10 +15,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-3 mb-5">
-              <div className="w-12 h-12 rounded-xl gradient-gold flex items-center justify-center text-[#1a1a2e] font-black text-2xl">
-                M
-              </div>
+            <Link to="/" className="flex items-center gap-3 mb-5 group">
+              <img
+                src="/assets/logo.png"
+                alt="Munnalal Painter Logo"
+                className="w-12 h-12 rounded-xl object-contain shadow-md flex-shrink-0 group-hover:scale-105 transition-transform"
+              />
               <div>
                 <div className="text-white font-black text-lg">Munnalal</div>
                 <div className="text-[#d4a017] text-xs font-semibold tracking-widest uppercase">Painter</div>

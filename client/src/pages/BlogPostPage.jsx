@@ -42,7 +42,7 @@ const BlogPostPage = () => {
     publisher: {
       '@type': 'Organization',
       name: SEO_CONFIG.siteName,
-      logo: { '@type': 'ImageObject', url: `${SEO_CONFIG.siteUrl}/logo.png` },
+      logo: { '@type': 'ImageObject', url: `${SEO_CONFIG.siteUrl}/assets/logo.png` },
     },
     datePublished: blog.publishedAt || blog.createdAt,
     dateModified: blog.updatedAt,

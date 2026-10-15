@@ -75,7 +75,11 @@ const AdminLoginPage = () => {
       <motion.div initial={{ opacity: 0, y: 30, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.5 }}
         className="w-full max-w-md p-8 rounded-2xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)' }}>
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl gradient-gold flex items-center justify-center text-3xl font-black text-[#1a1a2e] mx-auto mb-4">M</div>
+          <img
+            src="/assets/logo.png"
+            alt="Munnalal Painter Logo"
+            className="w-16 h-16 rounded-2xl object-contain mx-auto mb-4 shadow-lg"
+          />
           <h1 className="text-2xl font-black text-white">Admin Panel</h1>
           <p className="text-white/60 text-sm">Munnalal Painter Management</p>
         </div>
