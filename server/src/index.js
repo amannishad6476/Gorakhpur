@@ -29,6 +29,7 @@ const uploadRoutes = require('./routes/upload.routes');
 const statsRoutes = require('./routes/stats.routes');
 const activityRoutes = require('./routes/activity.routes');
 const projectRoutes = require('./routes/project.routes');
+const festivalOfferRoutes = require('./routes/festivalOffer.routes');
 
 const app = express();
 
@@ -105,6 +106,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/festival-offers', festivalOfferRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -4,6 +4,7 @@ const FAQ = require('../models/FAQ');
 const Testimonial = require('../models/Testimonial');
 const SiteContent = require('../models/SiteContent');
 const Banner = require('../models/Banner');
+const FestivalOffer = require('../models/FestivalOffer');
 const bcrypt = require('bcryptjs');
 const { isStrongPassword } = require('./validation');
 
@@ -130,6 +131,34 @@ const autoSeed = async () => {
     if (contentCount === 0) {
       await SiteContent.insertMany(defaultContent);
       console.log(`📝 Seeded default site content`);
+    }
+
+    const festivalCount = await FestivalOffer.countDocuments();
+    if (festivalCount === 0) {
+      const now = new Date();
+      const start = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const end = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+      await FestivalOffer.create({
+        festivalName: 'Diwali Dhamaka 2026',
+        heading: 'DIWALI DHAMAKA 2026',
+        subheading: 'Give Your Home a Beautiful Festive Makeover!',
+        offerMessage: 'Special Diwali Offer — Contact Us for Your Best Painting Quote!',
+        discountText: '',
+        services: [
+          'Interior & Exterior Painting',
+          'Premium Texture Painting',
+          'Wall Putty & Waterproofing',
+        ],
+        theme: 'diwali',
+        primaryButtonLabel: 'Get Free Quotation',
+        showWhatsappButton: true,
+        secondaryButtonLabel: 'Explore Services',
+        secondaryButtonLink: '/services',
+        startDate: start,
+        endDate: end,
+        isActive: true,
+      });
+      console.log(`🎉 Seeded default festival offer campaign`);
     }
   } catch (error) {
     console.error('Auto-seed warning:', error.message);

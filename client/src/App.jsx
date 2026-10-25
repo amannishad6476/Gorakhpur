@@ -10,7 +10,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FloatingButtons from './components/layout/FloatingButtons';
-import DiwaliPopup from './components/layout/DiwaliPopup';
+import FestivalPopup from './components/layout/FestivalPopup';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SEOHead from './components/layout/SEOHead';
 
@@ -47,6 +47,7 @@ const AdminActivityPage = lazy(() => import('./pages/admin/AdminActivityPage'));
 const AdminChangePasswordPage = lazy(() => import('./pages/admin/AdminChangePasswordPage'));
 const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage'));
 const AdminBannersPage = lazy(() => import('./pages/admin/AdminBannersPage'));
+const AdminFestivalOffersPage = lazy(() => import('./pages/admin/AdminFestivalOffersPage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,7 +73,7 @@ const PublicLayout = ({ children }) => (
     <main className="pt-0">{children}</main>
     <Footer />
     <FloatingButtons />
-    <DiwaliPopup />
+    <FestivalPopup />
   </>
 );
 
@@ -141,6 +142,7 @@ function App() {
                   <Route path="/admin/change-password" element={<ProtectedRoute><AdminLayout><AdminChangePasswordPage /></AdminLayout></ProtectedRoute>} />
                   <Route path="/admin/projects" element={<ProtectedRoute><AdminLayout><AdminProjectsPage /></AdminLayout></ProtectedRoute>} />
                   <Route path="/admin/banners" element={<ProtectedRoute><AdminLayout><AdminBannersPage /></AdminLayout></ProtectedRoute>} />
+                  <Route path="/admin/festival-offers" element={<ProtectedRoute><AdminLayout><AdminFestivalOffersPage /></AdminLayout></ProtectedRoute>} />
 
                   {/* Redirects */}
                   <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />

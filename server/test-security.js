@@ -320,7 +320,119 @@ async function runTests() {
     assert(deleteServiceRes.status === 200, 'Admin can delete service');
 
     // -------------------------------------------------------------
-    console.log('\n--- 8. Admin Logout & Token Expiry Flow ---');
+    console.log('\n--- 8. Festival Offers Security, Scheduling & Admin Operations ---');
+    // Public active endpoint is accessible without authentication
+    const publicOfferRes = await request('/api/festival-offers/active');
+    assert(publicOfferRes.status === 200, 'Public active festival offer endpoint is accessible without authentication');
+
+    // Unauthenticated protection
+    const unauthOfferRes = await request('/api/festival-offers/admin/all');
+    assert(unauthOfferRes.status === 401, 'GET /api/festival-offers/admin/all returns 401 when unauthenticated');
+
+    const unauthCreateOffer = await request('/api/festival-offers', {
+      method: 'POST',
+      body: { festivalName: 'Test Festival', heading: 'Test Heading', startDate: new Date(), endDate: new Date() },
+    });
+    assert(unauthCreateOffer.status === 401, 'POST /api/festival-offers returns 401 when unauthenticated');
+
+    // Validation: missing required fields
+    const invalidOfferRes1 = await request('/api/festival-offers', {
+      method: 'POST',
+      token: newAdminToken,
+      body: { festivalName: '' },
+    });
+    assert(invalidOfferRes1.status === 400, 'Create festival offer rejects missing required name');
+
+    // Validation: end date earlier than start date
+    const nowTime = new Date();
+    const pastTime = new Date(nowTime.getTime() - 1000000);
+    const invalidOfferRes2 = await request('/api/festival-offers', {
+      method: 'POST',
+      token: newAdminToken,
+      body: {
+        festivalName: 'Holi Offer',
+        heading: 'HOLI DHAMAKA 2027',
+        startDate: nowTime.toISOString(),
+        endDate: pastTime.toISOString(),
+      },
+    });
+    assert(invalidOfferRes2.status === 400, 'Create festival offer rejects end date earlier than start date');
+
+    // Valid admin creation
+    const startTime = new Date(Date.now() - 60000); // 1 minute ago
+    const endTime = new Date(Date.now() + 86400000 * 7); // 7 days from now
+    const createOfferRes = await request('/api/festival-offers', {
+      method: 'POST',
+      token: newAdminToken,
+      body: {
+        festivalName: 'Holi Rangotsav 2027',
+        heading: 'HOLI SPECIAL 2027',
+        subheading: 'Brighten Your Home with Festive Colors',
+        offerMessage: 'Special Holi Offer — Contact Us for Your Best Painting Quote!',
+        discountText: 'Special Holi Package',
+        theme: 'holi',
+        primaryButtonLabel: 'Get Free Quotation',
+        showWhatsappButton: true,
+        secondaryButtonLabel: 'Explore Services',
+        startDate: startTime.toISOString(),
+        endDate: endTime.toISOString(),
+        isActive: true,
+      },
+    });
+    assert(createOfferRes.status === 201, 'Admin can create a new festival campaign');
+    const offerId = createOfferRes.data.data._id;
+
+    // Admin can view all campaigns
+    const allOffersRes = await request('/api/festival-offers/admin/all', {
+      token: newAdminToken,
+    });
+    assert(allOffersRes.status === 200 && Array.isArray(allOffersRes.data.data), 'Admin can list all festival campaigns');
+
+    // Active campaign appears in public response
+    const activeOfferRes = await request('/api/festival-offers/active');
+    assert(
+      activeOfferRes.status === 200 && activeOfferRes.data.data && activeOfferRes.data.data.festivalName === 'Holi Rangotsav 2027',
+      'Active festival offer within valid date range is returned publicly'
+    );
+
+    // Update campaign
+    const updateOfferRes = await request(`/api/festival-offers/${offerId}`, {
+      method: 'PUT',
+      token: newAdminToken,
+      body: {
+        heading: 'UPDATED HOLI SPECIAL 2027',
+        discountText: 'Festive Color Package',
+      },
+    });
+    assert(
+      updateOfferRes.status === 200 && updateOfferRes.data.data.heading === 'UPDATED HOLI SPECIAL 2027',
+      'Admin can update festival campaign'
+    );
+
+    // Toggle active status (disable it)
+    const toggleOfferRes = await request(`/api/festival-offers/${offerId}/toggle`, {
+      method: 'PATCH',
+      token: newAdminToken,
+    });
+    assert(toggleOfferRes.status === 200 && toggleOfferRes.data.data.isActive === false, 'Admin can toggle festival campaign to disabled');
+
+    // When disabled, public active endpoint returns null (or another active campaign if any, but not the disabled one)
+    const afterDisabledPublicRes = await request('/api/festival-offers/active');
+    const activeData = afterDisabledPublicRes.data.data;
+    assert(
+      !activeData || activeData._id !== offerId,
+      'Disabled festival campaign is NEVER returned publicly'
+    );
+
+    // Delete campaign
+    const deleteOfferRes = await request(`/api/festival-offers/${offerId}`, {
+      method: 'DELETE',
+      token: newAdminToken,
+    });
+    assert(deleteOfferRes.status === 200, 'Admin can delete festival campaign');
+
+    // -------------------------------------------------------------
+    console.log('\n--- 9. Admin Logout & Token Expiry Flow ---');
     const logoutRes = await request('/api/auth/logout', {
       method: 'POST',
       token: newAdminToken,

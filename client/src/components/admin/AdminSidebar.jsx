@@ -15,6 +15,7 @@ const navItems = [
   { icon: '📧', label: 'Enquiries', href: '/admin/enquiries' },
   { icon: '📋', label: 'Estimates', href: '/admin/estimates' },
   { icon: '🇮🇳', label: 'Banners', href: '/admin/banners' },
+  { icon: '🎉', label: 'Festival Offers', href: '/admin/festival-offers' },
   { icon: '✏️', label: 'Site Content', href: '/admin/content' },
   { icon: '📄', label: 'Activity Logs', href: '/admin/activity' },
   { icon: '🔒', label: 'Change Password', href: '/admin/change-password' },
