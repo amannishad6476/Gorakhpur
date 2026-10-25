@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FloatingButtons from './components/layout/FloatingButtons';
+import DiwaliPopup from './components/layout/DiwaliPopup';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import SEOHead from './components/layout/SEOHead';
 
@@ -71,6 +72,7 @@ const PublicLayout = ({ children }) => (
     <main className="pt-0">{children}</main>
     <Footer />
     <FloatingButtons />
+    <DiwaliPopup />
   </>
 );
 
