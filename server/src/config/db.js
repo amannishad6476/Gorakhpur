@@ -1,63 +1,49 @@
-const mongoose = require('mongoose');
+const prisma = require('./prisma');
 const autoSeed = require('../utils/autoSeed');
 
-const sanitizeMongoError = (message = '') => {
+const sanitizeDbError = (message = '') => {
   if (typeof message !== 'string') return 'Unknown database error';
-  return message.replace(/mongodb(\+srv)?:\/\/([^@/\s]+)@/gi, 'mongodb$1://<redacted>@');
+  return message.replace(/postgres(ql)?:\/\/([^:@]+):([^@]+)@/gi, 'postgres$1://$2:<redacted>@');
 };
 
 const connectDB = async (options = {}) => {
   const isProduction = process.env.NODE_ENV === 'production';
-  const mongoUri = (process.env.MONGODB_URI || '').trim();
-  const timeoutMS = options.serverSelectionTimeoutMS || (isProduction ? 15000 : 3000);
+  const databaseUrl = (process.env.DATABASE_URL || '').trim();
 
-  if (isProduction && !mongoUri) {
-    const errMsg = 'MONGODB_URI environment variable is missing in production. Please configure a valid MongoDB Atlas connection string.';
-    console.error(`❌ MongoDB Configuration Error: ${errMsg}`);
+  if (isProduction && !databaseUrl) {
+    const errMsg = 'DATABASE_URL environment variable is missing in production. Please configure your PostgreSQL connection string in Render / hosting.';
+    console.error(`❌ PostgreSQL Configuration Error: ${errMsg}`);
     throw new Error(errMsg);
   }
 
-  if (mongoUri) {
+  if (databaseUrl) {
     try {
-      const conn = await mongoose.connect(mongoUri, {
-        serverSelectionTimeoutMS: timeoutMS,
-      });
-      console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+      await prisma.$connect();
+      await prisma.$queryRaw`SELECT 1`;
+
+      let host = 'postgres';
+      let dbName = 'database';
+      try {
+        const parsedUrl = new URL(databaseUrl.replace(/^postgres:/, 'http:').replace(/^postgresql:/, 'http:'));
+        host = parsedUrl.host || 'postgres';
+        dbName = parsedUrl.pathname.replace(/^\//, '') || 'database';
+      } catch (_) {}
+
+      console.log(`✅ PostgreSQL Connected via Prisma: ${host}/${dbName}`);
       await autoSeed();
-      return conn;
+      return prisma;
     } catch (error) {
-      const safeMessage = sanitizeMongoError(error.message);
+      const safeMessage = sanitizeDbError(error.message);
       if (isProduction) {
-        const localhostHint = /(localhost|127\.0\.0\.1|::1)/.test(mongoUri)
-          ? ' (MONGODB_URI points to localhost; configure your MongoDB Atlas mongodb+srv:// connection string in Render)'
-          : '';
-        console.error(`❌ Production MongoDB Connection Failed (${safeMessage})${localhostHint}. In-memory fallback is disabled in production.`);
-        throw new Error(`Production MongoDB connection failed: ${safeMessage}${localhostHint}`);
+        console.error(`❌ Production PostgreSQL Connection Failed (${safeMessage}).`);
+        throw new Error(`Production PostgreSQL connection failed: ${safeMessage}`);
       }
-      console.warn(`⚠️ Primary MongoDB Connection failed (${safeMessage}). Attempting in-memory MongoDB fallback for ${process.env.NODE_ENV || 'development'}...`);
+      console.warn(`⚠️ PostgreSQL connection attempt failed (${safeMessage}).`);
+      throw error;
     }
   } else {
-    console.warn(`⚠️ MONGODB_URI is not set. Attempting in-memory MongoDB fallback for ${process.env.NODE_ENV || 'development'}...`);
-  }
-
-  try {
-    const { MongoMemoryServer } = require('mongodb-memory-server');
-    const mongod = await MongoMemoryServer.create({
-      instance: { dbName: 'munnalal_painter' },
-      spawnTimeoutMS: 60000,
-    });
-    const uri = mongod.getUri();
-    const conn = await mongoose.connect(uri);
-    console.log(`✅ In-Memory MongoDB Connected (${process.env.NODE_ENV || 'development'}): ${conn.connection.host}`);
-    await autoSeed();
-    return conn;
-  } catch (memError) {
-    const safeMemError = sanitizeMongoError(memError.message);
-    console.error(`❌ MongoDB Connection Error: ${safeMemError}`);
-    throw new Error(`MongoDB connection failed: ${safeMemError}`);
+    console.warn(`⚠️ DATABASE_URL is not set. Please provide a valid PostgreSQL DATABASE_URL in .env.`);
   }
 };
 
 module.exports = connectDB;
-
-

@@ -1,16 +1,30 @@
 const fs = require('fs');
 const path = require('path');
-const Banner = require('../models/Banner');
+const prisma = require('../config/prisma');
 const cloudinary = require('../config/cloudinary');
+const { toLegacyDoc } = require('../utils/format');
 
 exports.getActiveBanners = async (req, res) => {
-  const banners = await Banner.find({ isActive: true }).sort({ isPrimary: -1, order: 1, createdAt: -1 });
-  res.json({ success: true, data: banners });
+  const banners = await prisma.banner.findMany({
+    where: { isActive: true },
+    orderBy: [
+      { isPrimary: 'desc' },
+      { order: 'asc' },
+      { createdAt: 'desc' },
+    ],
+  });
+  res.json({ success: true, data: toLegacyDoc(banners) });
 };
 
 exports.getAllBannersAdmin = async (req, res) => {
-  const banners = await Banner.find().sort({ isPrimary: -1, order: 1, createdAt: -1 });
-  res.json({ success: true, data: banners });
+  const banners = await prisma.banner.findMany({
+    orderBy: [
+      { isPrimary: 'desc' },
+      { order: 'asc' },
+      { createdAt: 'desc' },
+    ],
+  });
+  res.json({ success: true, data: toLegacyDoc(banners) });
 };
 
 exports.createBanner = async (req, res) => {
@@ -23,7 +37,9 @@ exports.createBanner = async (req, res) => {
   }
 
   if (req.body.isPrimary) {
-    await Banner.updateMany({}, { isPrimary: false });
+    await prisma.banner.updateMany({
+      data: { isPrimary: false },
+    });
   }
 
   const bannerData = {
@@ -31,20 +47,25 @@ exports.createBanner = async (req, res) => {
     subtitle: typeof req.body.subtitle === 'string' ? req.body.subtitle.trim() : '',
     image: image.trim(),
     imagePublicId: typeof req.body.imagePublicId === 'string' ? req.body.imagePublicId.trim() : '',
-    ctaText: typeof req.body.buttonText === 'string' ? req.body.buttonText.trim() : (typeof req.body.ctaText === 'string' ? req.body.ctaText.trim() : ''),
-    ctaLink: typeof req.body.buttonLink === 'string' ? req.body.buttonLink.trim() : (typeof req.body.ctaLink === 'string' ? req.body.ctaLink.trim() : ''),
+    ctaText: typeof req.body.buttonText === 'string' ? req.body.buttonText.trim() : (typeof req.body.ctaText === 'string' ? req.body.ctaText.trim() : 'Get Free Estimate'),
+    ctaLink: typeof req.body.buttonLink === 'string' ? req.body.buttonLink.trim() : (typeof req.body.ctaLink === 'string' ? req.body.ctaLink.trim() : '/free-estimate'),
     isActive: req.body.isActive !== undefined ? Boolean(req.body.isActive) : true,
     isPrimary: Boolean(req.body.isPrimary),
     order: Number.isInteger(Number(req.body.order)) ? Number(req.body.order) : (Number.isInteger(Number(req.body.sortOrder)) ? Number(req.body.sortOrder) : 0),
   };
 
-  const banner = await Banner.create(bannerData);
-  res.status(201).json({ success: true, data: banner });
+  const banner = await prisma.banner.create({ data: bannerData });
+  res.status(201).json({ success: true, data: toLegacyDoc(banner) });
 };
 
 exports.updateBanner = async (req, res) => {
+  const id = req.params.id;
+
   if (req.body.isPrimary) {
-    await Banner.updateMany({ _id: { $ne: req.params.id } }, { isPrimary: false });
+    await prisma.banner.updateMany({
+      where: { id: { not: id } },
+      data: { isPrimary: false },
+    });
   }
 
   const updateData = {};
@@ -61,20 +82,28 @@ exports.updateBanner = async (req, res) => {
   if (req.body.sortOrder !== undefined) updateData.order = parseInt(req.body.sortOrder, 10) || 0;
   else if (req.body.order !== undefined) updateData.order = parseInt(req.body.order, 10) || 0;
 
-  const banner = await Banner.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
-  if (!banner) return res.status(404).json({ success: false, message: 'Banner not found.' });
-
-  res.json({ success: true, data: banner });
+  try {
+    const banner = await prisma.banner.update({
+      where: { id },
+      data: updateData,
+    });
+    res.json({ success: true, data: toLegacyDoc(banner) });
+  } catch (error) {
+    return res.status(404).json({ success: false, message: 'Banner not found.' });
+  }
 };
 
 exports.toggleBannerStatus = async (req, res) => {
-  const banner = await Banner.findById(req.params.id);
-  if (!banner) return res.status(404).json({ success: false, message: 'Banner not found.' });
+  const id = req.params.id;
+  const existing = await prisma.banner.findUnique({ where: { id } });
+  if (!existing) return res.status(404).json({ success: false, message: 'Banner not found.' });
 
-  banner.isActive = !banner.isActive;
-  await banner.save();
+  const banner = await prisma.banner.update({
+    where: { id },
+    data: { isActive: !existing.isActive },
+  });
 
-  res.json({ success: true, data: banner });
+  res.json({ success: true, data: toLegacyDoc(banner) });
 };
 
 exports.reorderBanners = async (req, res) => {
@@ -83,20 +112,29 @@ exports.reorderBanners = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Invalid payload. Array of banners expected.' });
   }
 
-  const bulkOps = banners.map((b, index) => ({
-    updateOne: {
-      filter: { _id: b.id || b._id },
-      update: { order: b.order !== undefined ? parseInt(b.order, 10) || index : index },
-    },
-  }));
+  for (let index = 0; index < banners.length; index++) {
+    const b = banners[index];
+    const bId = b.id || b._id;
+    if (bId) {
+      await prisma.banner.update({
+        where: { id: bId },
+        data: { order: b.order !== undefined ? parseInt(b.order, 10) || index : index },
+      });
+    }
+  }
 
-  await Banner.bulkWrite(bulkOps);
-  const updatedBanners = await Banner.find().sort({ isPrimary: -1, order: 1 });
-  res.json({ success: true, data: updatedBanners });
+  const updatedBanners = await prisma.banner.findMany({
+    orderBy: [
+      { isPrimary: 'desc' },
+      { order: 'asc' },
+    ],
+  });
+  res.json({ success: true, data: toLegacyDoc(updatedBanners) });
 };
 
 exports.deleteBanner = async (req, res) => {
-  const banner = await Banner.findById(req.params.id);
+  const id = req.params.id;
+  const banner = await prisma.banner.findUnique({ where: { id } });
   if (!banner) return res.status(404).json({ success: false, message: 'Banner not found.' });
 
   if (banner.imagePublicId) {
@@ -114,6 +152,6 @@ exports.deleteBanner = async (req, res) => {
     }
   }
 
-  await banner.deleteOne();
+  await prisma.banner.delete({ where: { id } });
   res.json({ success: true, message: 'Banner deleted.' });
 };

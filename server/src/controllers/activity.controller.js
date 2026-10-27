@@ -1,13 +1,41 @@
-const ActivityLog = require('../models/ActivityLog');
+const prisma = require('../config/prisma');
+const { toLegacyDoc } = require('../utils/format');
+
 exports.getLogs = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 50;
-  const skip = (page - 1) * limit;
-  const logs = await ActivityLog.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
-  const total = await ActivityLog.countDocuments();
-  res.json({ success: true, data: logs, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 50;
+    const skip = (page - 1) * limit;
+
+    const [logs, total] = await Promise.all([
+      prisma.activityLog.findMany({
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      prisma.activityLog.count(),
+    ]);
+
+    res.json({
+      success: true,
+      data: toLegacyDoc(logs),
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Failed to fetch activity logs.' });
+  }
 };
+
 exports.clearLogs = async (req, res) => {
-  await ActivityLog.deleteMany({});
-  res.json({ success: true, message: 'Logs cleared.' });
+  try {
+    await prisma.activityLog.deleteMany({});
+    res.json({ success: true, message: 'Logs cleared.' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Failed to clear activity logs.' });
+  }
 };

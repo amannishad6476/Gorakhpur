@@ -1,10 +1,4 @@
-const User = require('../models/User');
-const Service = require('../models/Service');
-const FAQ = require('../models/FAQ');
-const Testimonial = require('../models/Testimonial');
-const SiteContent = require('../models/SiteContent');
-const Banner = require('../models/Banner');
-const FestivalOffer = require('../models/FestivalOffer');
+const prisma = require('../config/prisma');
 const bcrypt = require('bcryptjs');
 const { isStrongPassword } = require('./validation');
 
@@ -55,22 +49,34 @@ const defaultContent = [
 const PLACEHOLDER_EMAILS = ['your-admin-email@example.com', 'admin@example.com', 'your_email@gmail.com'];
 
 const ensureAdminAccount = async (targetEmail, password) => {
-  const existingAdmin = await User.findOne({ email: targetEmail }).select('+password');
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: targetEmail },
+  });
+
   if (existingAdmin) {
     if (existingAdmin.password && !existingAdmin.password.startsWith('$2a$') && !existingAdmin.password.startsWith('$2b$')) {
-      existingAdmin.password = await bcrypt.hash(existingAdmin.password, 12);
-      await existingAdmin.save({ validateBeforeSave: false });
+      const hashedPassword = await bcrypt.hash(existingAdmin.password, 12);
+      await prisma.user.update({
+        where: { id: existingAdmin.id },
+        data: { password: hashedPassword },
+      });
       console.log(`👤 Migrated unhashed password for existing admin: ${existingAdmin.email}`);
     }
     return existingAdmin;
   }
 
-  const created = await User.create({
-    name: 'Munnalal Painter Admin',
-    email: targetEmail,
-    password,
-    role: 'superadmin',
-    isActive: true,
+  const hashedPassword = password.startsWith('$2a$') || password.startsWith('$2b$')
+    ? password
+    : await bcrypt.hash(password, 12);
+
+  const created = await prisma.user.create({
+    data: {
+      name: 'Munnalal Painter Admin',
+      email: targetEmail,
+      password: hashedPassword,
+      role: 'superadmin',
+      isActive: true,
+    },
   });
   console.log(`👤 Admin account initialized securely for: ${targetEmail}`);
   return created;
@@ -78,22 +84,13 @@ const ensureAdminAccount = async (targetEmail, password) => {
 
 const autoSeed = async () => {
   try {
-    // Migrate any legacy unhashed user passwords without overwriting hashed passwords
-    const existingUsers = await User.find().select('+password');
-    for (const u of existingUsers) {
-      if (u.password && !u.password.startsWith('$2a$') && !u.password.startsWith('$2b$')) {
-        u.password = await bcrypt.hash(u.password, 12);
-        await u.save({ validateBeforeSave: false });
-      }
-    }
-
     const rawEnvEmail = (process.env.ADMIN_EMAIL || '').toLowerCase().trim();
     const adminEmail = (rawEnvEmail && !PLACEHOLDER_EMAILS.includes(rawEnvEmail))
       ? rawEnvEmail
       : 'amannishad6476@gmail.com';
     const rawPassword = process.env.ADMIN_PASSWORD || 'Admin@123456';
     if (process.env.ADMIN_PASSWORD && !isStrongPassword(process.env.ADMIN_PASSWORD)) {
-      console.warn('⚠️ ADMIN_PASSWORD in environment does not meet complexity requirements (min 12 chars, uppercase, lowercase, number, special char). Using default fallback password for initial admin creation.');
+      console.warn('⚠️ ADMIN_PASSWORD in environment does not meet complexity requirements. Using default fallback password for initial admin creation.');
     }
     const password = isStrongPassword(rawPassword) ? rawPassword : 'Admin@123456';
 
@@ -103,60 +100,72 @@ const autoSeed = async () => {
       await ensureAdminAccount('amannishad6476@gmail.com', password);
     }
 
-    const serviceCount = await Service.countDocuments();
+    const serviceCount = await prisma.service.count();
     if (serviceCount === 0) {
-      await Service.insertMany(services);
+      for (const s of services) {
+        await prisma.service.create({ data: s });
+      }
       console.log(`📦 Seeded default services`);
     }
 
-    const bannerCount = await Banner.countDocuments();
+    const bannerCount = await prisma.banner.count();
     if (bannerCount === 0) {
-      await Banner.insertMany(defaultBanners);
+      for (const b of defaultBanners) {
+        await prisma.banner.create({ data: b });
+      }
       console.log(`🖼️ Seeded default hero banners`);
     }
 
-    const faqCount = await FAQ.countDocuments();
+    const faqCount = await prisma.fAQ.count();
     if (faqCount === 0) {
-      await FAQ.insertMany(faqs);
+      for (const f of faqs) {
+        await prisma.fAQ.create({ data: f });
+      }
       console.log(`❓ Seeded default FAQs`);
     }
 
-    const testimonialCount = await Testimonial.countDocuments();
+    const testimonialCount = await prisma.testimonial.count();
     if (testimonialCount === 0) {
-      await Testimonial.insertMany(testimonials);
+      for (const t of testimonials) {
+        await prisma.testimonial.create({ data: t });
+      }
       console.log(`⭐ Seeded default testimonials`);
     }
 
-    const contentCount = await SiteContent.countDocuments();
+    const contentCount = await prisma.siteContent.count();
     if (contentCount === 0) {
-      await SiteContent.insertMany(defaultContent);
+      for (const c of defaultContent) {
+        await prisma.siteContent.create({ data: c });
+      }
       console.log(`📝 Seeded default site content`);
     }
 
-    const festivalCount = await FestivalOffer.countDocuments();
+    const festivalCount = await prisma.festivalOffer.count();
     if (festivalCount === 0) {
       const now = new Date();
       const start = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       const end = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-      await FestivalOffer.create({
-        festivalName: 'Diwali Dhamaka 2026',
-        heading: 'DIWALI DHAMAKA 2026',
-        subheading: 'Give Your Home a Beautiful Festive Makeover!',
-        offerMessage: 'Special Diwali Offer — Contact Us for Your Best Painting Quote!',
-        discountText: '',
-        services: [
-          'Interior & Exterior Painting',
-          'Premium Texture Painting',
-          'Wall Putty & Waterproofing',
-        ],
-        theme: 'diwali',
-        primaryButtonLabel: 'Get Free Quotation',
-        showWhatsappButton: true,
-        secondaryButtonLabel: 'Explore Services',
-        secondaryButtonLink: '/services',
-        startDate: start,
-        endDate: end,
-        isActive: true,
+      await prisma.festivalOffer.create({
+        data: {
+          festivalName: 'Diwali Dhamaka 2026',
+          heading: 'DIWALI DHAMAKA 2026',
+          subheading: 'Give Your Home a Beautiful Festive Makeover!',
+          offerMessage: 'Special Diwali Offer — Contact Us for Your Best Painting Quote!',
+          discountText: '',
+          services: [
+            'Interior & Exterior Painting',
+            'Premium Texture Painting',
+            'Wall Putty & Waterproofing',
+          ],
+          theme: 'diwali',
+          primaryButtonLabel: 'Get Free Quotation',
+          showWhatsappButton: true,
+          secondaryButtonLabel: 'Explore Services',
+          secondaryButtonLink: '/services',
+          startDate: start,
+          endDate: end,
+          isActive: true,
+        },
       });
       console.log(`🎉 Seeded default festival offer campaign`);
     }

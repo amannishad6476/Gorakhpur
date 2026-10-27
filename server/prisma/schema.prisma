@@ -1,0 +1,269 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(uuid())
+  name                String
+  email               String   @unique
+  password            String
+  role                String   @default("admin")
+  isActive            Boolean  @default(true)
+  resetPasswordToken  String?
+  resetPasswordExpire DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  activityLogs        ActivityLog[]
+
+  @@map("users")
+}
+
+model Service {
+  id               String   @id @default(uuid())
+  title            String   @unique
+  slug             String   @unique
+  shortDescription String?  @default("")
+  description      String
+  icon             String   @default("🎨")
+  image            String?  @default("")
+  imagePublicId    String?  @default("")
+  features         String[] @default([])
+  metaTitle        String?  @default("")
+  metaDescription  String?  @default("")
+  price            String?  @default("")
+  order            Int      @default(0)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Banner {
+  id            String   @id @default(uuid())
+  title         String
+  subtitle      String?  @default("")
+  ctaText       String?  @default("Get Free Estimate")
+  ctaLink       String?  @default("/free-estimate")
+  image         String
+  imagePublicId String?  @default("")
+  isActive      Boolean  @default(true)
+  isPrimary     Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("banners")
+}
+
+model Blog {
+  id                 String    @id @default(uuid())
+  title              String
+  slug               String    @unique
+  excerpt            String
+  content            String
+  coverImage         String
+  coverImagePublicId String?   @default("")
+  author             String    @default("Munnalal Painter")
+  category           String    @default("Tips & Tricks")
+  tags               String[]  @default([])
+  metaTitle          String?   @default("")
+  metaDescription    String?   @default("")
+  isPublished        Boolean   @default(false)
+  publishedAt        DateTime?
+  views              Int       @default(0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@map("blogs")
+}
+
+model Review {
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  rating      Int       @default(5)
+  comment     String
+  location    String?   @default("Gorakhpur")
+  serviceUsed String?   @default("House Painting")
+  isApproved  Boolean   @default(false)
+  approvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("reviews")
+}
+
+model Testimonial {
+  id          String   @id @default(uuid())
+  name        String
+  designation String?  @default("Home Owner")
+  location    String?  @default("Gorakhpur")
+  message     String
+  rating      Int      @default(5)
+  avatar      String?  @default("")
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  category  String   @default("General")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
+}
+
+model Enquiry {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  service   String?  @default("House Painting")
+  message   String
+  status    String   @default("new")
+  notes     String?  @default("")
+  ipAddress String?  @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("enquiries")
+}
+
+model EstimateRequest {
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  phone           String
+  address         String
+  propertyType    String   @default("Residential")
+  serviceType     String   @default("Full House Painting")
+  approximateArea String?  @default("")
+  timeline        String?  @default("Flexible")
+  budget          String?  @default("")
+  message         String?  @default("")
+  status          String   @default("pending")
+  notes           String?  @default("")
+  ipAddress       String?  @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("estimate_requests")
+}
+
+model Project {
+  id                 String   @id @default(uuid())
+  title              String
+  slug               String   @unique
+  description        String
+  category           String   @default("Residential")
+  clientName         String?  @default("")
+  location           String   @default("Gorakhpur")
+  completionDate     String?  @default("")
+  coverImage         String
+  coverImagePublicId String?  @default("")
+  images             String[] @default([])
+  features           String[] @default([])
+  isFeatured         Boolean  @default(false)
+  order              Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Gallery {
+  id            String   @id @default(uuid())
+  title         String
+  category      String   @default("Interior")
+  image         String
+  imagePublicId String?  @default("")
+  caption       String?  @default("")
+  isFeatured    Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("galleries")
+}
+
+model SiteContent {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  type      String   @default("text")
+  label     String?  @default("")
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("site_contents")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  userName  String?  @default("Admin")
+  userRole  String?  @default("admin")
+  action    String
+  module    String
+  details   String?  @default("")
+  ipAddress String?  @default("")
+  userAgent String?  @default("")
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("activity_logs")
+}
+
+model OTP {
+  id        String   @id @default(uuid())
+  email     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("otps")
+}
+
+model FestivalOffer {
+  id                   String   @id @default(uuid())
+  festivalName         String
+  heading              String
+  subheading           String?  @default("")
+  offerMessage         String?  @default("")
+  discountText         String?  @default("")
+  services             String[] @default([])
+  bannerImage          String?  @default("")
+  bannerImagePublicId  String?  @default("")
+  theme                String   @default("diwali")
+  customThemeConfig    Json?
+  primaryButtonLabel   String   @default("Get Free Quotation")
+  showWhatsappButton   Boolean  @default(true)
+  secondaryButtonLabel String   @default("Explore Services")
+  secondaryButtonLink  String   @default("/services")
+  startDate            DateTime
+  endDate              DateTime
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([isActive, startDate, endDate])
+  @@map("festival_offers")
+}

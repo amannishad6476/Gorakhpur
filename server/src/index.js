@@ -4,7 +4,6 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -74,7 +73,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
 
-app.use(mongoSanitize());
 app.use(xss());
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));

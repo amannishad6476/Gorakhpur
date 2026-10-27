@@ -1,5 +1,5 @@
 const { verifyToken } = require('../config/jwt');
-const User = require('../models/User');
+const prisma = require('../config/prisma');
 
 exports.protect = async (req, res, next) => {
   try {
@@ -19,7 +19,9 @@ exports.protect = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
     }
 
-    const user = await User.findById(decoded.id).select('+isActive');
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
 
     if (!user || !user.isActive) {
       return res.status(401).json({ success: false, message: 'User not found or account deactivated.' });

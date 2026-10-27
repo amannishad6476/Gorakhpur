@@ -1,4 +1,5 @@
-const FestivalOffer = require('../models/FestivalOffer');
+const prisma = require('../config/prisma');
+const { toLegacyDoc } = require('../utils/format');
 
 /**
  * Public Endpoint: Get currently active & scheduled festival campaign
@@ -9,11 +10,14 @@ exports.getActiveOffer = async (req, res) => {
   try {
     const now = new Date();
 
-    const offer = await FestivalOffer.findOne({
-      isActive: true,
-      startDate: { $lte: now },
-      endDate: { $gte: now },
-    }).sort({ updatedAt: -1 });
+    const offer = await prisma.festivalOffer.findFirst({
+      where: {
+        isActive: true,
+        startDate: { lte: now },
+        endDate: { gte: now },
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
 
     if (!offer) {
       return res.json({ success: true, data: null });
@@ -22,7 +26,8 @@ exports.getActiveOffer = async (req, res) => {
     return res.json({
       success: true,
       data: {
-        _id: offer._id,
+        _id: offer.id,
+        id: offer.id,
         festivalName: offer.festivalName,
         heading: offer.heading,
         subheading: offer.subheading,
@@ -53,8 +58,10 @@ exports.getActiveOffer = async (req, res) => {
  */
 exports.getAllOffersAdmin = async (req, res) => {
   try {
-    const offers = await FestivalOffer.find().sort({ createdAt: -1 });
-    return res.json({ success: true, data: offers });
+    const offers = await prisma.festivalOffer.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return res.json({ success: true, data: toLegacyDoc(offers) });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -68,11 +75,13 @@ exports.getAllOffersAdmin = async (req, res) => {
  */
 exports.getOfferById = async (req, res) => {
   try {
-    const offer = await FestivalOffer.findById(req.params.id);
+    const offer = await prisma.festivalOffer.findUnique({
+      where: { id: req.params.id },
+    });
     if (!offer) {
       return res.status(404).json({ success: false, message: 'Festival campaign not found.' });
     }
-    return res.json({ success: true, data: offer });
+    return res.json({ success: true, data: toLegacyDoc(offer) });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -178,8 +187,8 @@ exports.createOffer = async (req, res) => {
       isActive: isActive !== undefined ? Boolean(isActive) : true,
     };
 
-    const offer = await FestivalOffer.create(offerData);
-    return res.status(201).json({ success: true, data: offer });
+    const offer = await prisma.festivalOffer.create({ data: offerData });
+    return res.status(201).json({ success: true, data: toLegacyDoc(offer) });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -193,7 +202,9 @@ exports.createOffer = async (req, res) => {
  */
 exports.updateOffer = async (req, res) => {
   try {
-    const offer = await FestivalOffer.findById(req.params.id);
+    const offer = await prisma.festivalOffer.findUnique({
+      where: { id: req.params.id },
+    });
     if (!offer) {
       return res.status(404).json({ success: false, message: 'Festival campaign not found.' });
     }
@@ -231,57 +242,63 @@ exports.updateOffer = async (req, res) => {
       return res.status(400).json({ success: false, message: 'End date cannot be earlier than start date.' });
     }
 
+    const data = {};
+
     if (festivalName !== undefined) {
       if (typeof festivalName !== 'string' || !festivalName.trim()) {
         return res.status(400).json({ success: false, message: 'Festival name cannot be empty.' });
       }
-      offer.festivalName = festivalName.trim();
+      data.festivalName = festivalName.trim();
     }
 
     if (heading !== undefined) {
       if (typeof heading !== 'string' || !heading.trim()) {
         return res.status(400).json({ success: false, message: 'Popup heading cannot be empty.' });
       }
-      offer.heading = heading.trim();
+      data.heading = heading.trim();
     }
 
-    if (subheading !== undefined) offer.subheading = String(subheading).trim();
-    if (offerMessage !== undefined) offer.offerMessage = String(offerMessage).trim();
-    if (discountText !== undefined) offer.discountText = String(discountText).trim();
+    if (subheading !== undefined) data.subheading = String(subheading).trim();
+    if (offerMessage !== undefined) data.offerMessage = String(offerMessage).trim();
+    if (discountText !== undefined) data.discountText = String(discountText).trim();
 
     if (Array.isArray(services)) {
-      offer.services = services.map((s) => (typeof s === 'string' ? s.trim() : '')).filter(Boolean);
+      data.services = services.map((s) => (typeof s === 'string' ? s.trim() : '')).filter(Boolean);
     }
 
-    if (bannerImage !== undefined) offer.bannerImage = String(bannerImage).trim();
-    if (bannerImagePublicId !== undefined) offer.bannerImagePublicId = String(bannerImagePublicId).trim();
+    if (bannerImage !== undefined) data.bannerImage = String(bannerImage).trim();
+    if (bannerImagePublicId !== undefined) data.bannerImagePublicId = String(bannerImagePublicId).trim();
 
     const validThemes = ['diwali', 'holi', 'navratri', 'christmas', 'eid', 'custom'];
     if (theme && validThemes.includes(theme)) {
-      offer.theme = theme;
+      data.theme = theme;
     }
 
     if (customThemeConfig && typeof customThemeConfig === 'object') {
-      offer.customThemeConfig = {
-        primaryColor: customThemeConfig.primaryColor || offer.customThemeConfig.primaryColor,
-        secondaryColor: customThemeConfig.secondaryColor || offer.customThemeConfig.secondaryColor,
-        accentColor: customThemeConfig.accentColor || offer.customThemeConfig.accentColor,
-        textColor: customThemeConfig.textColor || offer.customThemeConfig.textColor,
+      const existingConfig = (typeof offer.customThemeConfig === 'object' && offer.customThemeConfig) || {};
+      data.customThemeConfig = {
+        primaryColor: customThemeConfig.primaryColor || existingConfig.primaryColor || '#680512',
+        secondaryColor: customThemeConfig.secondaryColor || existingConfig.secondaryColor || '#1f0005',
+        accentColor: customThemeConfig.accentColor || existingConfig.accentColor || '#d4a017',
+        textColor: customThemeConfig.textColor || existingConfig.textColor || '#ffffff',
       };
     }
 
-    if (primaryButtonLabel !== undefined) offer.primaryButtonLabel = String(primaryButtonLabel).trim();
-    if (showWhatsappButton !== undefined) offer.showWhatsappButton = Boolean(showWhatsappButton);
-    if (secondaryButtonLabel !== undefined) offer.secondaryButtonLabel = String(secondaryButtonLabel).trim();
-    if (secondaryButtonLink !== undefined) offer.secondaryButtonLink = String(secondaryButtonLink).trim();
+    if (primaryButtonLabel !== undefined) data.primaryButtonLabel = String(primaryButtonLabel).trim();
+    if (showWhatsappButton !== undefined) data.showWhatsappButton = Boolean(showWhatsappButton);
+    if (secondaryButtonLabel !== undefined) data.secondaryButtonLabel = String(secondaryButtonLabel).trim();
+    if (secondaryButtonLink !== undefined) data.secondaryButtonLink = String(secondaryButtonLink).trim();
 
-    offer.startDate = start;
-    offer.endDate = end;
+    data.startDate = start;
+    data.endDate = end;
 
-    if (isActive !== undefined) offer.isActive = Boolean(isActive);
+    if (isActive !== undefined) data.isActive = Boolean(isActive);
 
-    await offer.save();
-    return res.json({ success: true, data: offer });
+    const updated = await prisma.festivalOffer.update({
+      where: { id: req.params.id },
+      data,
+    });
+    return res.json({ success: true, data: toLegacyDoc(updated) });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -295,18 +312,22 @@ exports.updateOffer = async (req, res) => {
  */
 exports.toggleOfferStatus = async (req, res) => {
   try {
-    const offer = await FestivalOffer.findById(req.params.id);
+    const offer = await prisma.festivalOffer.findUnique({
+      where: { id: req.params.id },
+    });
     if (!offer) {
       return res.status(404).json({ success: false, message: 'Festival campaign not found.' });
     }
 
-    offer.isActive = !offer.isActive;
-    await offer.save();
+    const updated = await prisma.festivalOffer.update({
+      where: { id: req.params.id },
+      data: { isActive: !offer.isActive },
+    });
 
     return res.json({
       success: true,
-      message: `Festival campaign ${offer.isActive ? 'enabled' : 'disabled'}.`,
-      data: offer,
+      message: `Festival campaign ${updated.isActive ? 'enabled' : 'disabled'}.`,
+      data: toLegacyDoc(updated),
     });
   } catch (error) {
     return res.status(500).json({
@@ -321,10 +342,16 @@ exports.toggleOfferStatus = async (req, res) => {
  */
 exports.deleteOffer = async (req, res) => {
   try {
-    const offer = await FestivalOffer.findByIdAndDelete(req.params.id);
+    const offer = await prisma.festivalOffer.findUnique({
+      where: { id: req.params.id },
+    });
     if (!offer) {
       return res.status(404).json({ success: false, message: 'Festival campaign not found.' });
     }
+
+    await prisma.festivalOffer.delete({
+      where: { id: req.params.id },
+    });
 
     return res.json({
       success: true,
