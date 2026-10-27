@@ -1,4 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const os = require('os');
+const multer = require('multer');
+
 const uploadsDir = process.env.VERCEL
   ? path.join(os.tmpdir(), 'uploads')
   : path.join(__dirname, '../../uploads');
