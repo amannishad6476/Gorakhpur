@@ -124,7 +124,7 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 let server;
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   const PORT = process.env.PORT || 5000;
   connectDB()
     .then(() => {
