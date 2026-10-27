@@ -1,6 +1,6 @@
 require('dotenv').config();
 const prisma = require('./src/config/prisma');
-const { autoSeed } = require('./src/utils/autoSeed');
+const autoSeed = require('./src/utils/autoSeed');
 
 const run = async () => {
   try {
