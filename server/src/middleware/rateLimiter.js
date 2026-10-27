@@ -9,6 +9,7 @@ exports.loginLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skipSuccessfulRequests: false,
+  validate: false,
 });
 
 exports.apiLimiter = rateLimit({
@@ -17,6 +18,7 @@ exports.apiLimiter = rateLimit({
   message: { success: false, message: 'Too many requests. Please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
 });
 
 exports.submitLimiter = rateLimit({
@@ -25,6 +27,7 @@ exports.submitLimiter = rateLimit({
   message: { success: false, message: 'Too many submissions. Please try again after 1 hour.' },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
 });
 
 exports.otpLimiter = rateLimit({
@@ -33,4 +36,5 @@ exports.otpLimiter = rateLimit({
   message: { success: false, message: 'Too many OTP requests. Please try again after 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
 });
